@@ -1,56 +1,18 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
-/*
-public class Main {
-    public static void main(String[] args) {
-        // Press Alt+Intro with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Mayús+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+//clase cliente:
 
-            // Press Mayús+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
-    }
-}*/
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
-/*public class Main {
-    public static void main(String[] args) {
-        // Press Alt+Intro with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        // Press Mayús+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Mayús+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
-    }
-}
-
- */
-
-import java.util.ArrayList;
-
-class Suscriptor {
+public class Cliente {
     private String nombre;
     private String rut;
     private String telefono;
-    private int edad;
 
-    public Suscriptor(String nombre, String rut, String telefono, int edad) {
+    public Cliente(String nombre, String rut, String telefono) {
         this.nombre = nombre;
         this.rut = rut;
         this.telefono = telefono;
-        this.edad = edad;
     }
 
+    // Getters y setters
     public String getNombre() {
         return nombre;
     }
@@ -74,95 +36,117 @@ class Suscriptor {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+}
 
-    public int getEdad() {
-        return edad;
+//clase cobertura
+
+public class Cobertura {
+    private String region;
+    private int codigoRegion;
+    private int numeroClientes;
+    private List<Cliente> clientes;
+
+    public Cobertura(String region, int codigoRegion) {
+        this.region = region;
+        this.codigoRegion = codigoRegion;
+        this.numeroClientes = 0;
+        this.clientes = new ArrayList<>();
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    // Getters y setters
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public int getCodigoRegion() {
+        return codigoRegion;
+    }
+
+    public void setCodigoRegion(int codigoRegion) {
+        this.codigoRegion = codigoRegion;
+    }
+
+    public int getNumeroClientes() {
+        return numeroClientes;
+    }
+
+    public void setNumeroClientes(int numeroClientes) {
+        this.numeroClientes = numeroClientes;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void agregarCliente(Cliente cliente) {
+        clientes.add(cliente);
+        numeroClientes++;
     }
 }
 
-class Paquete {
+//clase empresa
+public class Empresa {
     private String nombre;
-    private double precio;
-    private int cantidadSuscriptores;
-    private int suscriptoresActuales;
-    private ArrayList<Suscriptor> suscriptores;
+    private List<Cobertura> coberturas;
 
-    public Paquete(String nombre, double precio, int cantidadSuscriptores) {
+    public Empresa(String nombre) {
         this.nombre = nombre;
-        this.precio = precio;
-        this.cantidadSuscriptores = cantidadSuscriptores;
-        this.suscriptoresActuales = 0;
-        this.suscriptores = new ArrayList<>();
+        this.coberturas = new ArrayList<>();
     }
 
+    // Getters y setters
     public String getNombre() {
         return nombre;
     }
 
-    public double getPrecio() {
-        return precio;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public int getCantidadSuscriptores() {
-        return cantidadSuscriptores;
+    public List<Cobertura> getCoberturas() {
+        return coberturas;
     }
 
-    public int getSuscriptoresActuales() {
-        return suscriptoresActuales;
-    }
-
-    public void agregarSuscriptor(Suscriptor suscriptor) {
-        if (suscriptoresActuales < cantidadSuscriptores) {
-            suscriptores.add(suscriptor);
-            suscriptoresActuales++;
-        } else {
-            System.out.println("El paquete está lleno, no se puede agregar más suscriptores.");
-        }
+    public void agregarCobertura(Cobertura cobertura) {
+        coberturas.add(cobertura);
     }
 }
-
-class Redes {
-    private ArrayList<Paquete> paquetes;
-
-    public Redes() {
-        paquetes = new ArrayList<>();
-    }
-
-    public ArrayList<Paquete> getPaquetes() {
-        return paquetes;
-    }
-
-    public void agregarPaquete(Paquete paquete) {
-        paquetes.add(paquete);
-    }
-}
-
+//Clase "Main" (para probar el código):
 public class Main {
     public static void main(String[] args) {
-        Suscriptor suscriptor1 = new Suscriptor("Juan Pérez", "123456789", "555-1234", 30);
-        Suscriptor suscriptor2 = new Suscriptor("María Gómez", "987654321", "555-5678", 25);
+        // Crear clientes
+        Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "+123456789");
+        Cliente cliente2 = new Cliente("María López", "987654321", "+987654321");
 
-        Paquete paquete1 = new Paquete("Paquete Básico", 29.99, 50);
-        Paquete paquete2 = new Paquete("Paquete Premium", 49.99, 100);
+        // Crear coberturas y agregar clientes
+        Cobertura cobertura1 = new Cobertura("Zona Norte", 1);
+        cobertura1.agregarCliente(cliente1);
 
-        paquete1.agregarSuscriptor(suscriptor1);
-        paquete1.agregarSuscriptor(suscriptor2);
+        Cobertura cobertura2 = new Cobertura("Zona Sur", 2);
+        cobertura2.agregarCliente(cliente2);
 
-        paquete2.agregarSuscriptor(suscriptor1);
+        // Crear empresa y agregar coberturas
+        Empresa empresa = new Empresa("Mi Empresa");
+        empresa.agregarCobertura(cobertura1);
+        empresa.agregarCobertura(cobertura2);
 
-        Redes redes = new Redes();
-        redes.agregarPaquete(paquete1);
-        redes.agregarPaquete(paquete2);
+        // Acceder a los datos
+        System.out.println("Empresa: " + empresa.getNombre());
 
-        System.out.println("Paquetes en la red:");
-        for (Paquete paquete : redes.getPaquetes()) {
-            System.out.println("Nombre: " + paquete.getNombre());
-            System.out.println("Precio: " + paquete.getPrecio());
-            System.out.println("Suscriptores actuales: " + paquete.getSuscriptoresActuales());
+        for (Cobertura cobertura : empresa.getCoberturas()) {
+            System.out.println("Cobertura: " + cobertura.getRegion() + " (Código: " + cobertura.getCodigoRegion() + ")");
+            System.out.println("Número de clientes: " + cobertura.getNumeroClientes());
+
+            for (Cliente cliente : cobertura.getClientes()) {
+                System.out.println("Cliente: " + cliente.getNombre());
+                System.out.println("   Rut: " + cliente.getRut());
+                System.out.println("   Teléfono: " + cliente.getTelefono());
+            }
+
             System.out.println();
         }
     }
