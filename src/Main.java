@@ -6,7 +6,6 @@ public class Main {
     public static void main(String[] args) throws IOException{
         Empresa sistema = new Empresa();
         int opcion;
-        String aux;
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
 
         while(true){
@@ -27,22 +26,87 @@ public class Main {
 
             if(opcion == 1){
 
+                System.out.print("Ingrese la región de la cobertura: ");
+                String region = lector.readLine();
+                System.out.print("Ingrese el codigo de la región de la cobertura: ");
+                String codigo = lector.readLine();
+                Cobertura aux = new Cobertura(region, codigo);
+                if(sistema.agregarCobertura(aux)){
+                    System.out.println("La cobertura fue agregada correctamente.");
+                }
+                else{
+                    System.out.println("Ya existe una cobertura con ese código.");
+                }
+
             }
             if(opcion == 2){
 
+                System.out.print("Ingrese la región de la cobertura: ");
+                String region = lector.readLine();
+                System.out.print("Ingrese el codigo de la región de la cobertura: ");
+                String codigo = lector.readLine();
+                Cobertura aux = new Cobertura(region, codigo);
+                if(sistema.eliminarCobertura(aux)){
+                    System.out.println("La cobertura fue eliminada correctamente.");
+                }
+                else{
+                    System.out.println("No se encontró la cobertura ingresada.");
+                }
+
             }
             if(opcion == 3){
+                ArrayList<Cobertura> lista = sistema.getCoberturas();
+                for(int i = 0; i < lista.size(); i++){
+                    Cobertura aux = lista.get(i);
+                    System.out.println("=====" + (i+1) + "=====");
+                    System.out.println("Cobertura de la Región: " + aux.getRegion());
+                    System.out.println("Codigo de la Región: "+ aux.getCodigoRegion());
+                    System.out.println("Numero de Suscriptores en la Región: "+ aux.getNumeroClientes());
+                }
 
             }
             if(opcion == 4){
-
+                ArrayList<Cobertura> lista = sistema.getCoberturasMenosDensas();
+                for(int i = 0; i < lista.size(); i++){
+                    Cobertura aux = lista.get(i);
+                    System.out.println("====="+(i+1)+"=====");
+                    System.out.println("Cobertura de la Región: "+ aux.getRegion());
+                    System.out.println("Codigo de la Región: "+ aux.getCodigoRegion());
+                    System.out.println("Numero de Suscriptores en la Región: "+ aux.getNumeroClientes());
+                }
             }
             if(opcion == 5){
+                ArrayList<Cobertura> lista = sistema.getCoberturasMasDensas();
+                for(int i = 0; i < lista.size(); i++){
+                    Cobertura aux = lista.get(i);
+                    System.out.println("====="+(i+1)+"=====");
+                    System.out.println("Cobertura de la Región: "+aux.getRegion());
+                    System.out.println("Codigo de la Región: "+ aux.getCodigoRegion());
+                    System.out.println("Numero de Suscriptores en la Región: "+ aux.getNumeroClientes());
+                }
+            }
+            if(opcion == 6){
+                System.out.print("Ingrese la región de la cobertura: ");
+                String region = lector.readLine();
+                System.out.print("Ingrese el codigo de la región de la cobertura: ");
+                String codigo = lector.readLine();
 
+                Cobertura aux = sistema.buscarCobertura(region, codigo);
+                if(aux != null){
+                    sistema.menuCoberturas(aux);
+                }
+                else{
+                    System.out.println("No se encontró la cobertura buscada");
+                }
+
+            }
+            if(opcion == 7){
+                break;
             }
 
         }
         System.out.println("Fin del programa!");
     }
+
 }
 
