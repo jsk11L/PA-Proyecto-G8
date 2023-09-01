@@ -8,6 +8,17 @@ public class Main {
         Cliente cliente1 = new Cliente("Juan Pérez", "123456789", "+123456789");
         Cliente cliente2 = new Cliente("María López", "987654321", "+987654321");
 
+        // Agregar y eliminar planes en los clientes
+        cliente1.agregarPlan("Plan A");
+        cliente1.agregarPlan("Plan B", "Plan A");
+        cliente1.agregarPlan("Plan C");
+        cliente1.eliminarPlan("Plan A");
+
+        cliente2.agregarPlan("Plan C");
+        cliente2.agregarPlan("Plan D", "Plan C");
+        cliente2.agregarPlan("Plan A");
+        cliente2.eliminarPlan(0); // Eliminar el primer plan
+
         // Crear coberturas y agregar clientes
         Cobertura cobertura1 = new Cobertura("Zona Norte", 1);
         cobertura1.agregarCliente(cliente1);
@@ -31,7 +42,10 @@ public class Main {
                 System.out.println("Cliente: " + cliente.getNombre());
                 System.out.println("   Rut: " + cliente.getRut());
                 System.out.println("   Teléfono: " + cliente.getTelefono());
-            }
+                System.out.println("   Planes contratados:");
+                for (String plan : cliente.getPlanesContratados()) {
+                    System.out.println("      " + plan);
+            }   }
 
             System.out.println();
         }
