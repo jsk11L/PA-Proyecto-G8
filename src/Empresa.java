@@ -2,28 +2,27 @@ import java.io.*;
 import java.util.*;
 
 public class Empresa {
-    private String nombre;
-    private List<Cobertura> coberturas;
+    private HashMap<String, Cobertura> mapaCoberturas;
+    private ArrayList<Cobertura> listaCoberturas;
 
-    public Empresa(String nombre) {
-        this.nombre = nombre;
-        this.coberturas = new ArrayList<>();
+    public Empresa() {
+        this.listaCoberturas = new ArrayList<>();
+        this.mapaCoberturas = new HashMap<>();
     }
 
-    // Getters y setters
-    public String getNombre() {
-        return nombre;
+    // Métodos
+
+
+
+    public boolean agregarCobertura(Cobertura cobertura) {
+        listaCoberturas.add(cobertura);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public boolean eliminarCobertura(Cobertura cobertura) {
+        listaCoberturas.add(cobertura);
     }
 
-    public List<Cobertura> getCoberturas() {
-        return coberturas;
-    }
-
-    public void agregarCobertura(Cobertura cobertura) {
-        coberturas.add(cobertura);
+    public ArrayList<Cobertura> getCoberturas() {
+        return listaCoberturas;
     }
 }

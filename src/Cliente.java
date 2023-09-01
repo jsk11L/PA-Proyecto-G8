@@ -6,13 +6,13 @@ public class Cliente {
     private String rut;
     private String telefono;
 
-    private ArrayList<String> planesContratados;
+    private Plan planes;
 
     public Cliente(String nombre, String rut, String telefono) {
         this.nombre = nombre;
         this.rut = rut;
         this.telefono = telefono;
-        this.planesContratados = new ArrayList<>();
+        this.planes = new Plan();
     }
 
     // Getters y setters
