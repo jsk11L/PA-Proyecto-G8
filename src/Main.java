@@ -16,8 +16,10 @@ public class Main {
             System.out.println("1.- Agregar Cobertura");
             System.out.println("2.- Eliminar Cobertura");
             System.out.println("3.- Listar Coberturas");
-            System.out.println("4.- Seleccionar Cobertura");
-            System.out.println("5.- Salir del Sistema");
+            System.out.println("4.- Mostrar Coberturas más Demsa");
+            System.out.println("5.- Mostrar Coberturas menos Demsa");
+            System.out.println("6.- Seleccionar Cobertura");
+            System.out.println("7.- Salir del Sistema");
             System.out.println("");
             System.out.print("Escoge una opción: ");
 
