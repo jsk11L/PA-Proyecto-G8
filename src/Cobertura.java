@@ -128,10 +128,10 @@ public class Cobertura {
                     if(cliente.revisarPlanB() == false){
                         System.out.println("2. Plan B");
                     }
-                    if(cliente.revisarPlanC()){
+                    if(cliente.revisarPlanC() == false){
                         System.out.println("3. Plan C");
                     }
-                    if(cliente.revisarPlanD()){
+                    if(cliente.revisarPlanD() == false){
                         System.out.println("4. Plan D");
                     }
 
@@ -139,16 +139,16 @@ public class Cobertura {
                     opcion2 = Integer.parseInt(lector.readLine());
 
                     if(opcion2 == 1){
-                        cliente.cambiarPlanA(false);
+                        cliente.cambiarPlanA(true);
                     }
                     if(opcion2 == 2){
-                        cliente.cambiarPlanB(false);
+                        cliente.cambiarPlanB(true);
                     }
                     if(opcion2 == 3){
-                        cliente.cambiarPlanC(false);
+                        cliente.cambiarPlanC(true);
                     }
                     if(opcion2 == 4){
-                        cliente.cambiarPlanD(false);
+                        cliente.cambiarPlanD(true);
                     }
 
                 }
