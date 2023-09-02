@@ -91,6 +91,23 @@ public class Cobertura {
         return aux;
     }
 
+    public Cliente buscarCliente(String rut) {
+        if(mapaClientes.containsKey(rut) == false){
+            return null;
+        }
+
+        Cliente aux = null;
+        for(int i = 0; i < listaClientes.size(); i++) {
+
+            aux = listaClientes.get(i);
+            if (aux.getRut().equals(rut)) {
+                break;
+            }
+
+        }
+        return aux;
+    }
+
     public void menuClientes(Cliente cliente) throws IOException {
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         int opcion, opcion2;

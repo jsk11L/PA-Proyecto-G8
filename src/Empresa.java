@@ -92,6 +92,22 @@ public class Empresa {
         return aux;
     }
 
+    public Cobertura buscarCobertura(String codigo) {
+        if(!mapaCoberturas.containsKey(codigo)){
+            return null;
+        }
+
+        Cobertura aux = null;
+        for(int i = 0; i < listaCoberturas.size(); i++){
+            aux = listaCoberturas.get(i);
+            if(codigo.equals(aux.getCodigoRegion())) {
+                break;
+            }
+
+        }
+        return aux;
+    }
+
     public void menuCoberturas(Cobertura cobertura) throws IOException{
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
         int opcion;
