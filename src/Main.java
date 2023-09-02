@@ -15,8 +15,8 @@ public class Main {
             System.out.println("1.- Agregar Cobertura");
             System.out.println("2.- Eliminar Cobertura");
             System.out.println("3.- Listar Coberturas");
-            System.out.println("4.- Mostrar Coberturas más Demsa");
-            System.out.println("5.- Mostrar Coberturas menos Demsa");
+            System.out.println("4.- Mostrar Coberturas más Densa");
+            System.out.println("5.- Mostrar Coberturas menos Densa");
             System.out.println("6.- Seleccionar Cobertura");
             System.out.println("7.- Salir del Sistema");
             System.out.println("");
@@ -25,6 +25,9 @@ public class Main {
             opcion = Integer.parseInt(lector.readLine());
 
             if(opcion == 1){
+                System.out.println("Ingrese los datos de Cobertura");
+                String auxNombre = lector.readLine();
+                System.out.println(" " + auxNombre);
 
                 System.out.print("Ingrese la región de la cobertura: ");
                 String region = lector.readLine();
@@ -65,7 +68,7 @@ public class Main {
                 }
 
             }
-            if(opcion == 4){
+            if(opcion == 5){
                 ArrayList<Cobertura> lista = sistema.getCoberturasMenosDensas();
                 for(int i = 0; i < lista.size(); i++){
                     Cobertura aux = lista.get(i);
@@ -75,7 +78,7 @@ public class Main {
                     System.out.println("Numero de Suscriptores en la Región: "+ aux.getNumeroClientes());
                 }
             }
-            if(opcion == 5){
+            if(opcion == 4){
                 ArrayList<Cobertura> lista = sistema.getCoberturasMasDensas();
                 for(int i = 0; i < lista.size(); i++){
                     Cobertura aux = lista.get(i);
