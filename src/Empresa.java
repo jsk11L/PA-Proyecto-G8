@@ -44,10 +44,10 @@ public class Empresa {
         return true;
     }
 
-    public ArrayList<Cobertura> getCoberturas() {
+   /* public ArrayList<Cobertura> getCoberturas() {
         return listaCoberturas;
     }
-
+*/
     public ArrayList<Cobertura> getCoberturasMasDensas() {
         ArrayList<Cobertura> copiaCoberturas = new ArrayList<>(listaCoberturas);
 
