@@ -3,8 +3,6 @@ package controladores;
 import modelos.*;
 import excepciones.*;
 import vista.*;
-import java.io.*;
-import java.util.*;
 
 public class controladorCliente {
     private Empresa modelo;

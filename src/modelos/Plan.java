@@ -1,8 +1,6 @@
 package modelos;
 
-import modelos.Cliente;
 import java.util.*;
-import java.io.*;
 import excepciones.*;
 
 public class Plan {

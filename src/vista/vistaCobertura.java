@@ -1,15 +1,9 @@
 package vista;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.geometry.Insets;
 import modelos.*;
 import java.util.*;
 import controladores.*;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -82,7 +76,7 @@ public class vistaCobertura {
         ArrayList<Cobertura> todasLasCoberturas = cc.listarCoberturas();
         int totalCoberturas = todasLasCoberturas.size();
 
-        if (todasLasCoberturas == null || todasLasCoberturas.isEmpty()) {
+        if (todasLasCoberturas.isEmpty()) {
             mostrarMensajeError("Error", "No se encontraron coberturas.");
             return;
         }
@@ -124,7 +118,7 @@ public class vistaCobertura {
         ArrayList<Cobertura> todasLasCoberturas = cc.listarCoberturasTres();
         int totalCoberturas = todasLasCoberturas.size();
 
-        if (todasLasCoberturas == null || todasLasCoberturas.isEmpty()) {
+        if (todasLasCoberturas.isEmpty()) {
             mostrarMensajeError("Error", "No se encontraron coberturas.");
             return;
         }

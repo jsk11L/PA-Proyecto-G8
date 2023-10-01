@@ -2,7 +2,6 @@ package controladores;
 import modelos.*;
 import excepciones.*;
 import vista.*;
-import java.io.*;
 import java.util.*;
 
 public class controladorCobertura {
@@ -27,7 +26,7 @@ public class controladorCobertura {
     // Eliminar Cobertura
     public boolean eliminarCobertura(String codigoCobertura) {
         try{
-            Cobertura cobertura = modelo.eliminarCobertura(codigoCobertura);
+            modelo.eliminarCobertura(codigoCobertura);
             return true;
         } catch (CoberturaNoEncontradaException e){
             return false;
@@ -79,34 +78,6 @@ public class controladorCobertura {
             return planes;
         } catch (CoberturaNoEncontradaException e){
             return null;
-        }
-    }
- 
-    // Modificar el precio de un Plan en una Cobertura específica
-    public boolean modificarPrecioPlan(String codigoCobertura, String idPlan, float nuevoPrecio) {
-        try{
-            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-            Plan plan = cobertura.buscarPlan(idPlan);
-            plan.setPrecio(nuevoPrecio); 
-            return true;
-        } catch(CoberturaNoEncontradaException e){
-            return false;
-        } catch (PlanNoEncontradoException e){
-            return false;
-        }
-    }
-
-    // Modificar el ID de un Plan en una Cobertura específica
-    public boolean modificarIdPlan(String codigoCobertura, String idPlanActual, String nuevoId) {
-        try{
-            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-            Plan plan = cobertura.buscarPlan(idPlanActual);
-            plan.setId(nuevoId); 
-            return true;
-        } catch(CoberturaNoEncontradaException e){
-            return false;
-        } catch (PlanNoEncontradoException e){
-            return false;
         }
     }
     

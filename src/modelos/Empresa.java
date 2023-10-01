@@ -1,6 +1,4 @@
 package modelos;
-import modelos.*;
-import java.io.*;
 import java.util.*;
 import excepciones.*;
 import java.util.ArrayList;
@@ -11,8 +9,8 @@ public class Empresa {
     private ArrayList<Cobertura> listaCoberturas;
 
     public Empresa() {
-        this.listaCoberturas = new ArrayList<Cobertura>();
-        this.mapaCoberturas = new HashMap<String, Cobertura>();
+        this.listaCoberturas = new ArrayList<>();
+        this.mapaCoberturas = new HashMap<>();
     }
 
     // Métodos

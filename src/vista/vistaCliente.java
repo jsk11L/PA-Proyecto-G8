@@ -1,15 +1,11 @@
 package vista;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
+
 import javafx.scene.control.*;
-import javafx.geometry.Insets;
 import modelos.*;
 import java.util.*;
 import controladores.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -249,8 +245,6 @@ public class vistaCliente {
         }
     }
 
-
-    
     private boolean validarDatosCliente(String datos) {
         return datos.split(",").length == 3;
     }
