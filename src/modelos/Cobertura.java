@@ -1,5 +1,6 @@
 package modelos;
 
+import excepciones.*;
 import java.io.*;
 import java.util.*;
 
@@ -48,17 +49,19 @@ public class Cobertura {
         if(!mapaPlanes.containsKey(plan.getId())) { // Verifica que el plan no esté ya registrado
             listaPlanes.add(plan);
             mapaPlanes.put(plan.getId(), plan);
+        }else{
+            throw new PlanYaRegistradoException("El plan con ID: " + id + " ya fue registrado.");;        
         }
     }
 
     // Método para eliminar un Plan por ID
-    public boolean eliminarPlan(String idPlan) {
-        Plan plan = mapaPlanes.remove(idPlan); 
-        if(plan != null) {
+    public void eliminarPlan(String idPlan) {
+        if(mapaPlanes.containsKey(plan.getId())) { // Verifica que el plan no esté ya registrado
+            mapaPlanes.remove(idPlan); 
             listaPlanes.remove(plan);
-            return true; 
+        }else{
+            throw new PlanNoEncontradoException("El plan con ID: " + id + " no fue encontrado.");;        
         }
-        return false; 
     }
 
     // Método para obtener la lista de Planes
@@ -85,7 +88,11 @@ public class Cobertura {
 
     // Método para buscar un Plan por ID
     public Plan buscarPlan(String idPlan) {
-        return mapaPlanes.get(idPlan);
+        if(mapaPlanes.containsKey(idPlan)) {
+            return mapaPlanes.get(idPlan);
+        }else{
+            throw new PlanNoEncontradoException("El plan con ID: " + id + " no fue encontrado.");;        
+        }
     }
     
 }

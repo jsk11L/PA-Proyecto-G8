@@ -38,20 +38,23 @@ public class Plan {
 
     // Método para agregar un Cliente
     public void agregarCliente(Cliente cliente) {
-        if(!tieneCliente(cliente)) {
+        if(!mapaClientes.containsKey(cliente.getRut())) {
             listaClientes.add(cliente);
             mapaClientes.put(cliente.getRut(), cliente);
+        } else {
+            throw new ClienteYaRegistradoException("El cliente con rut: " + id + " ya fue registrado.");
         }
     }
 
     // Método para eliminar un Cliente
-    public boolean eliminarCliente(Cliente cliente) {
+    public void eliminarCliente(Cliente cliente) {
         Cliente clienteEliminado = mapaClientes.remove(cliente.getRut());
         if(clienteEliminado != null) {
             listaClientes.remove(clienteEliminado);
-            return true;
         }
-        return false;
+        else{
+            throw new ClienteNoEncontradoException("El cliente con rut: " + id + " no fue encontrado.");
+        }
     }
 
     public int numeroDeClientes() {

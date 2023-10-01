@@ -2,6 +2,7 @@ package modelos;
 import modelos.*;
 import java.io.*;
 import java.util.*;
+import excepciones.*;
 
 public class Empresa {
     private HashMap<String, Cobertura> mapaCoberturas;
@@ -13,9 +14,9 @@ public class Empresa {
     }
 
     // Métodos
-    public boolean agregarCobertura(Cobertura cobertura) {
-        if(mapaCoberturas.containsKey(cobertura.getCodigoRegion())){
-            return false;
+    public void agregarCobertura(Cobertura cobertura) {
+        if(mapaCoberturas.containsKey(id)){
+            throw new CoberturaYaRegistradaException("La cobertura con ID: " + id + " ya fue registrada.");
         }
         else{
             mapaCoberturas.put(cobertura.getCodigoRegion(), cobertura);
@@ -24,28 +25,27 @@ public class Empresa {
         }
     }
 
-    public Cobertura eliminarCobertura(Cobertura cobertura) {
-        if(!mapaCoberturas.containsKey(cobertura.getCodigoRegion())){
-            return null;
+    public Cobertura eliminarCobertura(String id) {
+        if(!mapaCoberturas.containsKey(id)){
+            throw new CoberturaNoEncontradaException("La cobertura con ID: " + id + " no fue encontrada.");
         }
-        Cobertura aux = mapaCoberturas.remove(cobertura.getCodigoRegion());
+        Cobertura aux = mapaCoberturas.remove(id);
         
         for(int i = 0; i < listaCoberturas.size(); i++){
 
             Cobertura aux2 = listaCoberturas.get(i);
-            if(cobertura.getCodigoRegion().equals(aux.getCodigoRegion())){
+            if(id.equals(aux.getCodigoRegion())){
                     listaCoberturas.remove(i);
                     break;
             }
 
         }
-
         return aux;
     }
     
     public Cobertura eliminarCobertura(String codigo) {
         if(!mapaCoberturas.containsKey(codigo)){
-            return null;
+            throw new CoberturaNoEncontradaException("El plan con ID: " + id + " no fue encontrado.");
         }
         Cobertura aux = mapaCoberturas.remove(codigo);
 
@@ -64,7 +64,7 @@ public class Empresa {
 
     public Cobertura buscarCobertura(String codigo) {
         if(!mapaCoberturas.containsKey(codigo)){
-            return null;
+            throw new CoberturaNoEncontradaException("La cobertura con ID: " + id + " no fue encontrada.");
         }
 
         Cobertura aux = null;
@@ -92,7 +92,7 @@ public class Empresa {
     public Plan buscarPlan(Cobertura cobertura, String clave){
         Plan plan = cobertura.buscarPlan(clave);
         if(plan != null) return plan;
-        return null;
+        throw new PlanNoEncontradoException("El plan con ID: " + id + " no fue encontrado.");
     }
 
 }
