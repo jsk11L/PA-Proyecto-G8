@@ -78,7 +78,7 @@ public class Empresa {
         return aux;
     }
     
-    public ArrayList getCoberturas(){
+    public ArrayList<Cobertura> getCoberturas(){
         ArrayList<Cobertura> copia = new ArrayList<>();
         
         for(int i = 0; i < listaCoberturas.size(); i++){

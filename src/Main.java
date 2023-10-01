@@ -12,6 +12,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+
 
 public class Main extends Application {
 
@@ -25,31 +30,30 @@ public class Main extends Application {
         primaryStage.setTitle("Gestión de redes de cable de TV");
 
         BorderPane root = new BorderPane();
-        MenuBar menuBar = new MenuBar();
-        
-        Menu menuGestion = new Menu("Gestión");
-        
-        MenuItem menuItemSuscribir = new MenuItem("Suscribir Cliente");
-        menuItemSuscribir.setOnAction(e -> {
-            // Aquí abres la ventana de suscripción
-        });
-        
-        MenuItem menuItemDesuscribir = new MenuItem("Desuscribir Cliente");
-        menuItemDesuscribir.setOnAction(e -> {
-            // Aquí abres la ventana de desuscripción
-        });
-        
-        menuGestion.getItems().addAll(menuItemSuscribir, menuItemDesuscribir);
-        menuBar.getMenus().add(menuGestion);
 
-        // Puedes agregar más ítems al menú si es necesario
+        // Configurar la imagen
+        Image image = new Image("/images/2.jpg"); // Asegúrate de poner la ruta correcta de tu imagen
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(600); // Ajustar al tamaño de tu ventana
 
-        root.setTop(menuBar);
-        
-        Scene scene = new Scene(root, 800, 600); 
+        // Configurar botones en la izquierda
+        VBox vbox = new VBox(10); // 10 es el espacio entre los botones
+        Button btnSuscribir = new Button("Suscribir Cliente");
+        Button btnDesuscribir = new Button("Desuscribir Cliente");
+        // Puedes seguir añadiendo botones según lo que necesites...
+
+        vbox.getChildren().addAll(btnSuscribir, btnDesuscribir);
+
+        // Establecer imagen y botones en el BorderPane
+        root.setLeft(vbox);
+        root.setRight(imageView);
+
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 
     public static void main(String[] args) {
         launch(args);
