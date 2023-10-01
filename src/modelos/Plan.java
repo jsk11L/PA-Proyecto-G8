@@ -34,6 +34,16 @@ public class Plan {
         return this.id;
     }
     
+    public ArrayList<Cliente> getClientes(){
+        ArrayList<Cliente> copia = new ArrayList<>();
+        for(int i = 0; i < listaClientes.size(); i++){
+            Cliente aux = listaClientes.get(i);
+            copia.add(aux);
+        }
+        
+        return copia;
+    }
+    
     public boolean tieneCliente(Cliente cliente) {
         return mapaClientes.containsKey(cliente.getRut()); 
     }

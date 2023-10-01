@@ -115,5 +115,10 @@ public class controladorCobertura {
         }
         return null;
     }
+    
+    public void iniciarMenu(){
+        vistaMenu menu = new vistaMenu();
+        menu.mostrar();
+    }
 
 }

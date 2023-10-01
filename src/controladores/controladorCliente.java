@@ -35,10 +35,11 @@ public class controladorCliente {
         }
     }
 
-    public void desuscribirCliente(Cliente cliente, String codigoCobertura, String idPlan) {
+    public void desuscribirCliente(String nombre, String rut, String telefono, String codigoCobertura, String idPlan) {
         try{
             Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             Plan plan = cobertura.buscarPlan(idPlan);
+            Cliente cliente = new Cliente(nombre,rut,telefono);
             plan.eliminarCliente(cliente);
         }catch (CoberturaNoEncontradaException e){
             
@@ -49,9 +50,41 @@ public class controladorCliente {
         }
     }
     
+    public String[] buscarCliente(String rut) {
+    for (Cobertura cobertura : modelo.getCoberturas()) {
+        for (Plan plan : cobertura.getPlanes()) {
+            for (Cliente cliente : plan.getClientes()) {
+                if (cliente.getRut().equals(rut)) {
+                    String[] resultado = new String[5];
+                    resultado[0] = cobertura.getRegion();
+                    resultado[1] = plan.getId();
+                    resultado[2] = cliente.getNombre();
+                    resultado[3] = cliente.getRut();
+                    resultado[4] = cliente.getTelefono();
+                    return resultado;
+                }
+            }
+        }
+    }
+    return null; // Retorna null si no se encuentra el cliente
+}
+    
     public void iniciarSuscripcion() {
         vista.mostrarVentanaSuscripcion();
     }
+    
+    public void iniciarDesuscripcion() {
+        vista.mostrarVentanaDesuscripcion();
+    }
+    
+    public void iniciarBusqueda() {
+        vista.mostrarVentanaBusqueda();
+    }
+    
+    public void iniciarLista() {
+        //vista.mostrarVentanaLista();
+    }
+    
 
 }
 
