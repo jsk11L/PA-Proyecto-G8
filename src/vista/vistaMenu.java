@@ -2,11 +2,17 @@ package vista;
 
 import controladores.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Representa la interfaz gráfica del menú principal del sistema.
+ */
 public class vistaMenu {
 
     private Stage ventanaMenu;
@@ -14,15 +20,26 @@ public class vistaMenu {
     private controladorCobertura cc;
     private controladorPlan cp;
 
+    /**
+     * Constructor para inicializar el menú principal.
+     *
+     * @param cce Controlador para las operaciones relacionadas con el cliente.
+     * @param cc Controlador para las operaciones relacionadas con la cobertura.
+     * @param cp Controlador para las operaciones relacionadas con el plan.
+     */
     public vistaMenu(controladorCliente cce, controladorCobertura cc, controladorPlan cp) {
         this.cp = cp;
         this.cce = cce;
         this.cc = cc;
+     
         
         ventanaMenu = new Stage();
         ventanaMenu.setTitle("Menú de administración");
+        Image appIcon = new Image("/images/iconMenu.png");
+        ventanaMenu.getIcons().add(appIcon);
 
-        VBox layout = new VBox(10); // 10 es el espaciado entre los elementos
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(20, 20, 20, 20));
 
         Button btnAgregarCobertura = new Button("Agregar Cobertura");
@@ -61,7 +78,6 @@ public class vistaMenu {
             this.cp.iniciarListar();
         });
 
-
         layout.getChildren().addAll(btnAgregarCobertura, btnEliminarCobertura, btnListarCoberturas);
         layout.getChildren().addAll(btnListarTres, btnAgregarPlan, btnEliminarPlan);
         layout.getChildren().addAll(btnListarPlanes);
@@ -70,6 +86,9 @@ public class vistaMenu {
         ventanaMenu.setScene(scene);
     }
 
+    /**
+     * Muestra el menú principal al usuario.
+     */
     public void mostrar() {
         ventanaMenu.show();
     }

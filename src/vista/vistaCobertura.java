@@ -7,36 +7,47 @@ import javafx.scene.control.Alert;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
+/**
+ * Clase que representa la vista de las operaciones relacionadas con Coberturas.
+ */
 public class vistaCobertura {
+    /** Controlador de Cobertura asociado con esta vista. */
     private controladorCobertura cc;
     
+    /**
+     * Constructor de la clase vistaCobertura.
+     * @param cc Controlador de Cobertura a ser asociado con esta vista.
+     */
     public vistaCobertura(controladorCobertura cc) {
         this.cc = cc;
     }
     
+    /**
+     * Método para mostrar una ventana para agregar una nueva cobertura.
+     */
     public void mostrarVentanaAgregar() {
-    // Solicitar el código de región
     TextInputDialog dialogCodigo = new TextInputDialog();
+    Stage stage = (Stage) dialogCodigo.getDialogPane().getScene().getWindow();
+    stage.getIcons().add(new Image("/images/iconSus.png"));
     dialogCodigo.setTitle("Agregar Cobertura");
     dialogCodigo.setHeaderText("Ingrese la región:");
     Optional<String> resultCodigo = dialogCodigo.showAndWait();
 
-    // Si el código es proporcionado, solicita la región
     if (resultCodigo.isPresent() && !resultCodigo.get().trim().isEmpty()) {
         String codigoRegion = resultCodigo.get().trim();
 
-        // Solicitar la región
         TextInputDialog dialogRegion = new TextInputDialog();
         dialogRegion.setTitle("Agregar Cobertura");
         dialogRegion.setHeaderText("Ingrese el código de la región:");
         Optional<String> resultRegion = dialogRegion.showAndWait();
 
-        // Si la región es proporcionada, crea la Cobertura y agrega
         if (resultRegion.isPresent() && !resultRegion.get().trim().isEmpty()) {
             String region = resultRegion.get().trim();
             
-            Cobertura nuevaCobertura = new Cobertura(codigoRegion, region); // Suponiendo que el constructor de Cobertura toma ambos valores
+            Cobertura nuevaCobertura = new Cobertura(codigoRegion, region);
             boolean agregado = cc.agregarCobertura(nuevaCobertura);
 
             if (agregado) {
@@ -52,9 +63,13 @@ public class vistaCobertura {
     }
 }
 
-    
+    /**
+     * Método para mostrar una ventana que permite eliminar una cobertura existente.
+     */
     public void mostrarVentanaEliminar() {
         TextInputDialog dialogCobertura = new TextInputDialog();
+        Stage stage = (Stage) dialogCobertura.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/images/iconDes.png"));
         dialogCobertura.setTitle("Eliminar Cobertura");
         dialogCobertura.setHeaderText("Ingrese el código de región de la cobertura a eliminar:");
         Optional<String> resultCobertura = dialogCobertura.showAndWait();
@@ -71,6 +86,9 @@ public class vistaCobertura {
         }
     }
     
+    /**
+     * Método para mostrar una ventana que lista todas las coberturas existentes.
+     */
     public void mostrarVentanaListar() {
         AtomicInteger coberturaIndice = new AtomicInteger(0);
         ArrayList<Cobertura> todasLasCoberturas = cc.listarCoberturas();
@@ -82,6 +100,8 @@ public class vistaCobertura {
         }
 
         Dialog<Void> dialog = new Dialog<>();
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/images/iconList.png"));
         dialog.setTitle("Datos de la Cobertura");
         dialog.setHeaderText("Información de las Coberturas:");
 
@@ -91,28 +111,28 @@ public class vistaCobertura {
 
         dialog.getDialogPane().getButtonTypes().addAll(btnSiguienteType, btnAnteriorType, btnCerrarType);
 
-        // Manejo de botón anterior
-        
         final Button btnSiguiente = (Button) dialog.getDialogPane().lookupButton(btnSiguienteType);
         btnSiguiente.addEventFilter(ActionEvent.ACTION, event -> {
             coberturaIndice.set((coberturaIndice.get() + totalCoberturas - 1) % totalCoberturas);
-            event.consume(); // Consume el evento para que no cierre el diálogo
+            event.consume();
             mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
         });
         
         final Button btnAnterior = (Button) dialog.getDialogPane().lookupButton(btnAnteriorType);
         btnAnterior.addEventFilter(ActionEvent.ACTION, event -> {
             coberturaIndice.set((coberturaIndice.get() + 1) % totalCoberturas);
-            event.consume(); // Consume el evento para que no cierre el diálogo
+            event.consume();
             mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
         });
         
         mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
         
-        // Mostrar el diálogo
         dialog.showAndWait();
     }
     
+    /**
+     * Método para mostrar una ventana que lista las tres coberturas con menos clientes.
+     */
     public void mostrarVentanaListarTres() {
         AtomicInteger coberturaIndice = new AtomicInteger(0);
         ArrayList<Cobertura> todasLasCoberturas = cc.listarCoberturasTres();
@@ -124,6 +144,8 @@ public class vistaCobertura {
         }
 
         Dialog<Void> dialog = new Dialog<>();
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/images/iconList.png"));
         dialog.setTitle("Datos de las Coberturas");
         dialog.setHeaderText("Información de las Tres Coberturas con Menos Clientes:");
 
@@ -133,28 +155,31 @@ public class vistaCobertura {
 
         dialog.getDialogPane().getButtonTypes().addAll(btnSiguienteType, btnAnteriorType, btnCerrarType);
 
-        // Manejo de botón anterior
-        
         final Button btnSiguiente = (Button) dialog.getDialogPane().lookupButton(btnSiguienteType);
         btnSiguiente.addEventFilter(ActionEvent.ACTION, event -> {
             coberturaIndice.set((coberturaIndice.get() + totalCoberturas - 1) % totalCoberturas);
-            event.consume(); // Consume el evento para que no cierre el diálogo
+            event.consume();
             mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
         });
         
         final Button btnAnterior = (Button) dialog.getDialogPane().lookupButton(btnAnteriorType);
         btnAnterior.addEventFilter(ActionEvent.ACTION, event -> {
             coberturaIndice.set((coberturaIndice.get() + 1) % totalCoberturas);
-            event.consume(); // Consume el evento para que no cierre el diálogo
+            event.consume();
             mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
         });
         
         mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
         
-        // Mostrar el diálogo
         dialog.showAndWait();
     }
 
+     /**
+     * Muestra la cobertura en el área de texto del diálogo proporcionado.
+     * @param dialog Diálogo donde se mostrará la cobertura.
+     * @param indice Índice de la cobertura a mostrar.
+     * @param coberturas Lista de coberturas a mostrar.
+     */
     private void mostrarCoberturaEnTextArea(Dialog<Void> dialog, int indice, List<Cobertura> coberturas) {
         Cobertura cobertura = coberturas.get(indice);
         if (cobertura != null) {
@@ -164,18 +189,32 @@ public class vistaCobertura {
         }
     }
 
-
-    // Métodos para mostrar mensajes, que ya estaban definidos en vistaCliente:
+    /**
+     * Muestra un mensaje de error al usuario.
+     *
+     * @param titulo El título del mensaje de error.
+     * @param mensaje El contenido del mensaje de error.
+     */
     public void mostrarMensajeError(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/images/error.png"));
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
+    
+    /**
+     * Muestra un mensaje informativo al usuario.
+     *
+     * @param titulo El título del mensaje informativo.
+     * @param mensaje El contenido del mensaje informativo.
+     */
     public void mostrarMensajeInfo(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/images/error.png"));
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);

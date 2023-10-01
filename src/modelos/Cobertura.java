@@ -3,6 +3,9 @@ package modelos;
 import excepciones.*;
 import java.util.*;
 
+/**
+ * Representa una cobertura regional de servicios con múltiples planes.
+ */
 public class Cobertura {
     private String region;
     private String codigoRegion;
@@ -10,6 +13,12 @@ public class Cobertura {
     private ArrayList<Plan> listaPlanes;
     private HashMap<String, Plan> mapaPlanes;
 
+    /**
+     * Construye un nuevo objeto Cobertura con la región y código de región especificados.
+     *
+     * @param region El nombre de la región.
+     * @param codigoRegion El código único que identifica la región.
+     */
     public Cobertura(String region, String codigoRegion) {
         this.region = region;
         this.codigoRegion = codigoRegion;
@@ -18,32 +27,66 @@ public class Cobertura {
         this.mapaPlanes = new HashMap<>();
     }
 
-    // Getters y setters
+    /**
+     * Devuelve el nombre de la región de la cobertura.
+     *
+     * @return El nombre de la región.
+     */
     public String getRegion() {
         return region;
     }
-
+        
+    /**
+     * Establece el nombre de la región de la cobertura.
+     *
+     * @param region El nuevo nombre de la región.
+     */
     public void setRegion(String region) {
         this.region = region;
     }
-
+    
+    /**
+     * Devuelve el código de región de la cobertura.
+     *
+     * @return El código de la región.
+     */
     public String getCodigoRegion() {
         return codigoRegion;
     }
-
+    
+    /**
+     * Establece el código de región de la cobertura.
+     *
+     * @param codigoRegion El nuevo código de la región.
+     */
     public void setCodigoRegion(String codigoRegion) {
         this.codigoRegion = codigoRegion;
     }
 
+    /**
+     * Devuelve la cantidad de planes disponibles en la cobertura.
+     *
+     * @return El número de planes.
+     */
     public int getCantPlanes() {
         return cantPlanes;
     }
 
+    /**
+     * Establece la cantidad de planes de la cobertura.
+     *
+     * @param cantPlanes La nueva cantidad de planes en la cobertura.
+     */
     public void setCantPlanes(int cantPlanes) {
         this.cantPlanes = cantPlanes;
     }
     
-    // Método para agregar un Plan
+    /**
+     * Agrega un nuevo plan a la cobertura.
+     *
+     * @param plan El plan a agregar.
+     * @throws PlanYaRegistradoException si el plan ya fue registrado anteriormente.
+     */
     public void agregarPlan(Plan plan) throws PlanYaRegistradoException{
         if(mapaPlanes.containsKey(plan.getId() ) == false) { // Verifica que el plan no esté ya registrado
             listaPlanes.add(plan);
@@ -54,7 +97,12 @@ public class Cobertura {
         }
     }
 
-    // Método para eliminar un Plan por ID
+    /**
+     * Elimina un plan especificado por su ID.
+     *
+     * @param idPlan El ID del plan a eliminar.
+     * @throws PlanNoEncontradoException si no se encuentra un plan con el ID especificado.
+     */
     public void eliminarPlan(String idPlan) throws PlanNoEncontradoException{
         if(mapaPlanes.containsKey(idPlan) == true) { // Verifica que el plan no esté ya registrado
             Plan aux = mapaPlanes.remove(idPlan); 
@@ -64,7 +112,11 @@ public class Cobertura {
         }
     }
 
-    // Método para obtener la lista de Planes
+    /**
+     * Devuelve una lista con todos los planes disponibles en la cobertura.
+     *
+     * @return Una lista de objetos Plan.
+     */
     public ArrayList<Plan> getPlanes() {
         ArrayList<Plan> copia = new ArrayList<>();
         
@@ -76,7 +128,11 @@ public class Cobertura {
         return copia;
     }
 
-    // Método para obtener el número total de clientes en todos los planes
+    /**
+     * Calcula y devuelve el número total de clientes en todos los planes de la cobertura.
+     *
+     * @return El total de clientes en todos los planes.
+     */
     public int numeroDeClientes() {
         int totalClientes = 0;
         for(int i = 0; i < listaPlanes.size(); i++){
@@ -86,7 +142,13 @@ public class Cobertura {
         return totalClientes;
     }
 
-    // Método para buscar un Plan por ID
+     /**
+     * Busca y devuelve un plan especificado por su ID.
+     *
+     * @param idPlan El ID del plan a buscar.
+     * @return El objeto Plan si se encuentra.
+     * @throws PlanNoEncontradoException si no se encuentra un plan con el ID especificado.
+     */
     public Plan buscarPlan(String idPlan) throws PlanNoEncontradoException{
         if(mapaPlanes.containsKey(idPlan) == true) {
             return mapaPlanes.get(idPlan);
