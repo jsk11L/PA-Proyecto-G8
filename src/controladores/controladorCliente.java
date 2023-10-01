@@ -67,7 +67,21 @@ public class controladorCliente {
         }
     }
     return null; // Retorna null si no se encuentra el cliente
+    
 }
+    
+    public int obtenerTotalClientes(String codigoCobertura, String idPlan){
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
+            Plan plan = cobertura.buscarPlan(idPlan);
+            return plan.getClientes().size();
+        }catch (CoberturaNoEncontradaException e){
+            
+        }catch (PlanNoEncontradoException e){
+            
+        }
+        return 0;
+    }
     
     public void iniciarSuscripcion() {
         vista.mostrarVentanaSuscripcion();
@@ -81,8 +95,8 @@ public class controladorCliente {
         vista.mostrarVentanaBusqueda();
     }
     
-    public void iniciarLista() {
-        //vista.mostrarVentanaLista();
+    public void iniciarListar() {
+        vista.mostrarVentanaListar();
     }
     
 

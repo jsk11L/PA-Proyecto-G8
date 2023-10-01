@@ -10,8 +10,15 @@ import javafx.stage.Stage;
 public class vistaMenu {
 
     private Stage ventanaMenu;
+    private controladorCliente cce;
+    private controladorCobertura cc;
+    private controladorPlan cp;
 
-    public vistaMenu() {
+    public vistaMenu(controladorCliente cce, controladorCobertura cc, controladorPlan cp) {
+        this.cp = cp;
+        this.cce = cce;
+        this.cc = cc;
+        
         ventanaMenu = new Stage();
         ventanaMenu.setTitle("Menú de administración");
 
@@ -27,11 +34,33 @@ public class vistaMenu {
         Button btnListarPlanes = new Button("Listar Planes de una Cobertura");
 
         btnAgregarCobertura.setOnAction(event -> {
-            // Aquí puedes llamar directamente a los métodos de la Vista correspondiente 
-            // o pasar por el Controlador. Personalmente, recomiendo pasar por el Controlador.
+            this.cc.iniciarAgregar();
+        });
+        
+        btnEliminarCobertura.setOnAction(event -> {
+            this.cc.iniciarEliminar();
+        });
+        
+        btnListarCoberturas.setOnAction(event -> {
+            this.cc.iniciarListar();
+        });
+        
+        btnListarTres.setOnAction(event -> {
+            //this.cc.iniciarListarTres();
+        });
+        
+        btnAgregarPlan.setOnAction(event -> {
+            //this.cp.iniciarAgregar();
+        });
+        
+        btnEliminarPlan.setOnAction(event -> {
+            //this.cp.iniciarEliminar();
+        });
+        
+        btnListarPlanes.setOnAction(event -> {
+            //this.cp.iniciarListar();
         });
 
-        // ... Configurar las acciones para los otros botones
 
         layout.getChildren().addAll(btnAgregarCobertura, btnEliminarCobertura, btnListarCoberturas);
         layout.getChildren().addAll(btnListarTres, btnAgregarPlan, btnEliminarPlan);

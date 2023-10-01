@@ -86,11 +86,13 @@ public class Main extends Application {
         });
         
         btnListar.setOnAction(event -> {
-            controladorCliente.iniciarLista();
+            controladorCliente.iniciarListar();
         });
         
         btnModificar.setOnAction(event -> {
-           controladorCobertura.iniciarMenu();
+           vistaMenu vm = new vistaMenu(controladorCliente, controladorCobertura, controladorPlan);
+           vm.mostrar();
+           
         });
         
         btnSalir.setOnAction(event -> {

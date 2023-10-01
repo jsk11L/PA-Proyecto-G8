@@ -11,31 +11,33 @@ public class controladorCobertura {
 
     public controladorCobertura(Empresa modelo) {
         this.modelo = modelo;
-        this.vista = new vistaCobertura();
+        this.vista = new vistaCobertura(this);
     }
 
     // Agregar Cobertura
-    public void agregarCobertura(Cobertura cobertura) {
+    public boolean agregarCobertura(Cobertura cobertura) {
         try{
             modelo.agregarCobertura(cobertura);
+            return true;
         } catch (CoberturaYaRegistradaException e){
-            
+            return false;
         }
     }
 
     // Eliminar Cobertura
-    public void eliminarCobertura(String codigoCobertura) {
+    public boolean eliminarCobertura(String codigoCobertura) {
         try{
             Cobertura cobertura = modelo.eliminarCobertura(codigoCobertura);
+            return true;
         } catch (CoberturaNoEncontradaException e){
-            
+            return false;
         }
     }
 
     // Listar todas las Coberturas
-    public void listarCoberturas() {
-        ArrayList<Cobertura> coberturas = modelo.getCoberturas();
-        //vista.mostrarListaCoberturas(coberturas);
+    public ArrayList<Cobertura> listarCoberturas() {
+        ArrayList<Cobertura> copia = modelo.getCoberturas();
+        return copia;
     }
 
     // Mostrar las 3 Coberturas con menos clientes
@@ -47,62 +49,67 @@ public class controladorCobertura {
     }
 
     // Añadir Plan a una Cobertura específica
-    public void agregarPlanACobertura(String codigoCobertura, Plan plan) {
+    public boolean agregarPlanACobertura(String codigoCobertura, Plan plan) {
         try{
             Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             cobertura.agregarPlan(plan);
+            return true;
         } catch (CoberturaNoEncontradaException e){
-            //vista.mostrarError();
+            return false;
         } catch (PlanYaRegistradoException e){
-            
+            return false;
         }
     }
 
     // Eliminar Plan de una Cobertura específica
-    public void eliminarPlanDeCobertura(String codigoCobertura, String idPlan) {
+    public boolean eliminarPlanDeCobertura(String codigoCobertura, String idPlan) {
         try{
             Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             cobertura.eliminarPlan(idPlan);
+            return true;
         } catch (CoberturaNoEncontradaException e){
-            
+            return false;
         } catch (PlanNoEncontradoException e){
-            
+            return false;
         }
     }
 
     // Listar todos los Planes de una Cobertura específica y cuántos suscriptores tienen
-    public void listarPlanesDeCobertura(String codigoCobertura) {
+    public ArrayList<Plan> listarPlanesDeCobertura(String codigoCobertura) {
         try{
             Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             ArrayList<Plan> planes = cobertura.getPlanes();
+            return planes;
         } catch (CoberturaNoEncontradaException e){
-            
+            return null;
         }
     }
  
     // Modificar el precio de un Plan en una Cobertura específica
-    public void modificarPrecioPlan(String codigoCobertura, String idPlan, float nuevoPrecio) {
+    public boolean modificarPrecioPlan(String codigoCobertura, String idPlan, float nuevoPrecio) {
         try{
             Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             Plan plan = cobertura.buscarPlan(idPlan);
             plan.setPrecio(nuevoPrecio); 
+            return true;
         } catch(CoberturaNoEncontradaException e){
-            
+            return false;
         } catch (PlanNoEncontradoException e){
-            
+            return false;
         }
     }
 
     // Modificar el ID de un Plan en una Cobertura específica
-    public void modificarIdPlan(String codigoCobertura, String idPlanActual, String nuevoId) {
+    public boolean modificarIdPlan(String codigoCobertura, String idPlanActual, String nuevoId) {
         try{
             Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             Plan plan = cobertura.buscarPlan(idPlanActual);
             plan.setId(nuevoId); 
+            return true;
         } catch(CoberturaNoEncontradaException e){
-            
+            return false;
         } catch (PlanNoEncontradoException e){
-            
+            return false;
         }
     }
     
@@ -111,14 +118,35 @@ public class controladorCobertura {
             Cobertura cobertura = modelo.buscarCobertura(clave);
             return cobertura;
         } catch (CoberturaNoEncontradaException e){
-            
+            return null;
         }
-        return null;
     }
     
-    public void iniciarMenu(){
-        vistaMenu menu = new vistaMenu();
-        menu.mostrar();
+    public Cliente buscarClientePorIndice(String coberturaId, String planId, int indice) {
+        try{
+            Cobertura cobertura = buscarCobertura(coberturaId);
+            Plan plan = cobertura.buscarPlan(planId);
+            return plan.getClientes().get(indice);
+        }catch (PlanNoEncontradoException e){
+                return null;
+        }
     }
+    
+    public void iniciarAgregar(){
+        vista.mostrarVentanaAgregar();
+    }
+    
+    public void iniciarEliminar(){
+        vista.mostrarVentanaEliminar();
+    }
+    
+    public void iniciarListar(){
+        vista.mostrarVentanaListar();
+    }
+    
+    public void iniciarListarTres(){
+        //vista.mostrarVentanaListarTres();
+    }
+    
 
 }
