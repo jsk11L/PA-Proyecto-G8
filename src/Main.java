@@ -24,12 +24,13 @@ public class Main extends Application {
 
     private Empresa empresa = new Empresa(); // Suponiendo que tienes un constructor por defecto
     private controladorCobertura controladorCobertura = new controladorCobertura(empresa);
-    private controladorPlan controladorPlan = new controladorPlan(empresa);
-    private controladorCliente controladorCliente = new controladorCliente(empresa);
+    private controladorPlan controladorPlan = new controladorPlan(empresa, controladorCobertura);
+    private controladorCliente controladorCliente = new controladorCliente(empresa, controladorCobertura, controladorPlan);
 
     @Override
     public void start(Stage primaryStage) {
         cargarDatosDePrueba();
+        cargarDatosDePrueba2();
         
         primaryStage.setTitle("Gestión de redes de cable de TV");
         Image appIcon = new Image("/images/icon.png");
@@ -137,11 +138,46 @@ public class Main extends Application {
                 }
             }
         }catch(CoberturaYaRegistradaException e){
-            
+            return;
         }catch(PlanYaRegistradoException e){
-            
+            return;
         }catch(ClienteYaRegistradoException e){
-            
+            return;
+        }
+    }
+    
+    private void cargarDatosDePrueba2() {
+        String[] zonas = {"Osorno", "Villa Alemana", "La Cruz"};
+        String[] codigosRegion = {"8", "9", "10"};  // Codigos ficticios
+        String[] planesIds = {"A", "B", "C", "D", "E", "F", "G"};
+        String[] nombresClientes = {"Juan", "Carlos", "Ana"};
+        String[] rutsClientes = {"12345678-9", "23456789-0", "34567890-1"};
+        String[] telefonosClientes = {"912345678", "922345678", "932345678"};
+
+        // Crear coberturas
+        try{
+            for (int i = 0; i < zonas.length; i++) {
+                Cobertura cobertura = new Cobertura(zonas[i], codigosRegion[i]);
+                empresa.agregarCobertura(cobertura);
+                
+                // Crear planes para cada cobertura
+                for (String planId : planesIds) {
+                    Plan plan = new Plan(planId, 500);
+                    cobertura.agregarPlan(plan);
+
+                    // Crear clientes para cada plan
+                    for (int j = 0; j < nombresClientes.length; j++) {
+                        Cliente cliente = new Cliente(nombresClientes[j], rutsClientes[j], telefonosClientes[j]);
+                        plan.agregarCliente(cliente);
+                    }
+                }
+            }
+        }catch(CoberturaYaRegistradaException e){
+            return;
+        }catch(PlanYaRegistradoException e){
+            return;
+        }catch(ClienteYaRegistradoException e){
+            return;
         }
     }
 

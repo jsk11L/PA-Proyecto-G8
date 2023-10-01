@@ -49,6 +49,7 @@ public class Cobertura {
         if(mapaPlanes.containsKey(plan.getId() ) == false) { // Verifica que el plan no esté ya registrado
             listaPlanes.add(plan);
             mapaPlanes.put(plan.getId(), plan);
+            this.cantPlanes++;
         }else{
             throw new PlanYaRegistradoException("El plan con ID: " + plan.getId() + " ya fue registrado.");        
         }

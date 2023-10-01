@@ -3,6 +3,8 @@ import modelos.*;
 import java.io.*;
 import java.util.*;
 import excepciones.*;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Empresa {
     private HashMap<String, Cobertura> mapaCoberturas;
@@ -33,7 +35,7 @@ public class Empresa {
         for(int i = 0; i < listaCoberturas.size(); i++){
 
             Cobertura aux2 = listaCoberturas.get(i);
-            if(id.equals(aux.getCodigoRegion())){
+            if(id.equals(aux2.getCodigoRegion())){
                     listaCoberturas.remove(i);
                     break;
             }
@@ -69,6 +71,17 @@ public class Empresa {
         return copia;
     }
     
+    public ArrayList<Cobertura> getCoberturasTres() {
+        ArrayList<Cobertura> copia = new ArrayList<>();
+        
+        for(int i = 0; i < listaCoberturas.size(); i++){
+            Cobertura aux = listaCoberturas.get(i);
+            copia.add(aux);
+        }
+        
+        return copia.stream().sorted(Comparator.comparingInt(Cobertura::numeroDeClientes)).limit(3).collect(Collectors.toCollection(ArrayList::new));
+    }
+    
     public Plan buscarPlan(String codigo, String clave) throws PlanNoEncontradoException, CoberturaNoEncontradaException{
         Cobertura cobertura = buscarCobertura(codigo);
         Plan plan = cobertura.buscarPlan(clave);
@@ -77,5 +90,18 @@ public class Empresa {
         }
         throw new PlanNoEncontradoException("El plan con ID: " + clave + " no fue encontrado.");
     }
+    
+    public boolean eliminarPlan(String codigoCobertura, String idPlan){
+        try{
+            Cobertura cobertura = buscarCobertura(codigoCobertura);
+            cobertura.eliminarPlan(idPlan);
+            return true;
+        }catch(PlanNoEncontradoException e){
+            return false;
+        }catch(CoberturaNoEncontradaException e){
+            return false;
+        }
+    }
+    
 
 }

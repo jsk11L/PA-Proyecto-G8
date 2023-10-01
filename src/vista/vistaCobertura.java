@@ -118,11 +118,53 @@ public class vistaCobertura {
         // Mostrar el diálogo
         dialog.showAndWait();
     }
+    
+    public void mostrarVentanaListarTres() {
+        AtomicInteger coberturaIndice = new AtomicInteger(0);
+        ArrayList<Cobertura> todasLasCoberturas = cc.listarCoberturasTres();
+        int totalCoberturas = todasLasCoberturas.size();
+
+        if (todasLasCoberturas == null || todasLasCoberturas.isEmpty()) {
+            mostrarMensajeError("Error", "No se encontraron coberturas.");
+            return;
+        }
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Datos de las Coberturas");
+        dialog.setHeaderText("Información de las Tres Coberturas con Menos Clientes:");
+
+        ButtonType btnSiguienteType = new ButtonType("Siguiente", ButtonData.NEXT_FORWARD);
+        ButtonType btnAnteriorType = new ButtonType("Anterior", ButtonData.BACK_PREVIOUS);
+        ButtonType btnCerrarType = new ButtonType("Cerrar", ButtonData.CANCEL_CLOSE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(btnSiguienteType, btnAnteriorType, btnCerrarType);
+
+        // Manejo de botón anterior
+        
+        final Button btnSiguiente = (Button) dialog.getDialogPane().lookupButton(btnSiguienteType);
+        btnSiguiente.addEventFilter(ActionEvent.ACTION, event -> {
+            coberturaIndice.set((coberturaIndice.get() + totalCoberturas - 1) % totalCoberturas);
+            event.consume(); // Consume el evento para que no cierre el diálogo
+            mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
+        });
+        
+        final Button btnAnterior = (Button) dialog.getDialogPane().lookupButton(btnAnteriorType);
+        btnAnterior.addEventFilter(ActionEvent.ACTION, event -> {
+            coberturaIndice.set((coberturaIndice.get() + 1) % totalCoberturas);
+            event.consume(); // Consume el evento para que no cierre el diálogo
+            mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
+        });
+        
+        mostrarCoberturaEnTextArea(dialog, coberturaIndice.get(), todasLasCoberturas);
+        
+        // Mostrar el diálogo
+        dialog.showAndWait();
+    }
 
     private void mostrarCoberturaEnTextArea(Dialog<Void> dialog, int indice, List<Cobertura> coberturas) {
         Cobertura cobertura = coberturas.get(indice);
         if (cobertura != null) {
-            dialog.setContentText("Region: " + cobertura.getRegion() + "\nCódigo de la Región: " + cobertura.getCodigoRegion());
+            dialog.setContentText("Region: " + cobertura.getRegion() + "\nCódigo de la Región: " + cobertura.getCodigoRegion() + "\nCantida de Planes: " + cobertura.getCantPlanes() + "\nCantidad de Clientes: " + cobertura.numeroDeClientes());
         } else {
             dialog.setContentText("Cliente no encontrado.");
         }

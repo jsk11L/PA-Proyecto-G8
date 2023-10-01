@@ -39,13 +39,10 @@ public class controladorCobertura {
         ArrayList<Cobertura> copia = modelo.getCoberturas();
         return copia;
     }
-
-    // Mostrar las 3 Coberturas con menos clientes
-    public void mostrarTresCoberturasConMenosClientes() {
-        ArrayList<Cobertura> coberturas = modelo.getCoberturas();
-        //coberturas.sort(Comparator.comparingInt(Cobertura::numeroDeClientes)); // Asumiendo que tienes un método numeroDeClientes() en la clase Cobertura
-        //ArrayList<Cobertura> top3 = coberturas.subList(0, Math.min(coberturas.size(), 3)); // Tomar los primeros 3 o menos si no hay 3
-        //vista.mostrarListaCoberturas(top3);
+    
+    public ArrayList<Cobertura> listarCoberturasTres() {
+        ArrayList<Cobertura> copia = modelo.getCoberturasTres();
+        return copia;
     }
 
     // Añadir Plan a una Cobertura específica
@@ -145,7 +142,7 @@ public class controladorCobertura {
     }
     
     public void iniciarListarTres(){
-        //vista.mostrarVentanaListarTres();
+        vista.mostrarVentanaListarTres();
     }
     
 

@@ -12,10 +12,10 @@ public class controladorCliente {
     private controladorCobertura cc;
     private controladorPlan cp;
 
-   public controladorCliente(Empresa modelo) {
+   public controladorCliente(Empresa modelo, controladorCobertura cc, controladorPlan cp) {
         this.modelo = modelo;
-        this.cc = new controladorCobertura(modelo);
-        this.cp = new controladorPlan(modelo);
+        this.cc = cc;
+        this.cp = cp;
         this.vista = new vistaCliente(cc, cp, this);
     }
 

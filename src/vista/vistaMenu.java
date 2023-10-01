@@ -46,28 +46,27 @@ public class vistaMenu {
         });
         
         btnListarTres.setOnAction(event -> {
-            //this.cc.iniciarListarTres();
+            this.cc.iniciarListarTres();
         });
         
         btnAgregarPlan.setOnAction(event -> {
-            //this.cp.iniciarAgregar();
+            this.cp.iniciarAgregar();
         });
         
         btnEliminarPlan.setOnAction(event -> {
-            //this.cp.iniciarEliminar();
+            this.cp.iniciarEliminar();
         });
         
         btnListarPlanes.setOnAction(event -> {
-            //this.cp.iniciarListar();
+            this.cp.iniciarListar();
         });
 
 
         layout.getChildren().addAll(btnAgregarCobertura, btnEliminarCobertura, btnListarCoberturas);
         layout.getChildren().addAll(btnListarTres, btnAgregarPlan, btnEliminarPlan);
         layout.getChildren().addAll(btnListarPlanes);
-        // ... Agregar los otros botones al layout
-
-        Scene scene = new Scene(layout, 300, 400);  // Ajusta el tamaño como desees
+        
+        Scene scene = new Scene(layout, 300, 400);
         ventanaMenu.setScene(scene);
     }
 
