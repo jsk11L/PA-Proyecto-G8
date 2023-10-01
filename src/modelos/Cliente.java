@@ -1,3 +1,5 @@
+package modelos;
+
 import java.io.*;
 import java.util.*;
 
@@ -6,10 +8,11 @@ public class Cliente {
     private String rut;
     private String telefono;
 
+
     public Cliente(String nombre, String rut, String telefono) {
         this.nombre = nombre;
         this.rut = rut;
-        this.telefono = telefono;}
+        this.telefono = telefono;
     }
 
     // Getters y setters
@@ -36,4 +39,5 @@ public class Cliente {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    
 }
