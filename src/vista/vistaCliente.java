@@ -5,6 +5,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.Insets;
 import modelos.*;
+import java.util.*;
 import controladores.*;
 
 public class vistaCliente {
@@ -20,74 +21,85 @@ public class vistaCliente {
     
     // En tu clase vistaCliente.java
     public void mostrarVentanaSuscripcion() {
-        Stage suscripcionStage = new Stage();
-        suscripcionStage.setTitle("Suscribir Cliente");
+        TextInputDialog dialogCobertura = new TextInputDialog();
+        dialogCobertura.setTitle("Suscripción");
+        dialogCobertura.setHeaderText("Ingrese la cobertura:");
+        Optional<String> resultCobertura = dialogCobertura.showAndWait();
 
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(8);
-        grid.setHgap(10);
-
-        // Etiquetas y campos de texto
-        Label coberturaLabel = new Label("Cobertura:");
-        TextField coberturaField = new TextField();
-        Label planLabel = new Label("Plan:");
-        TextField planField = new TextField();
-        Label nombreLabel = new Label("Nombre:");
-        TextField nombreField = new TextField();
-        Label rutLabel = new Label("Rut:");
-        TextField rutField = new TextField();
-        Label telefonoLabel = new Label("Teléfono:");
-        TextField telefonoField = new TextField();
-
-        Button btnSuscribir = new Button("Suscribir Cliente");
-        btnSuscribir.setOnAction(e -> {
-            String coberturaID = coberturaField.getText();
-            String planID = planField.getText();
-            Cobertura cobertura = cc.buscarCobertura(coberturaID);
-            Plan plan = cp.buscarPlan(cobertura, planID);
-
-            if (cobertura != null && plan != null) {
-                String nombre = nombreField.getText();
-                String rut = rutField.getText();
-                String telefono = telefonoField.getText();
-
-                Cliente cliente = new Cliente(nombre, rut, telefono);
-                cce.suscribirCliente(cliente, coberturaID, planID);
-
-                // Puedes añadir una alerta de confirmación si quieres
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Información");
-                alert.setHeaderText(null);
-                alert.setContentText("Cliente suscrito con éxito!");
-                alert.showAndWait();
-
-                suscripcionStage.close();
+        if (resultCobertura.isPresent() && !resultCobertura.get().trim().isEmpty()) {
+            Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
+            if (cobertura != null) {
+                // Si encontramos la cobertura, continuamos al siguiente paso.
+                seleccionarPlan(resultCobertura.get().trim());
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Cobertura o Plan no encontrado!");
-                alert.showAndWait();
+                mostrarMensajeError("Error", "Cobertura no encontrada.");
             }
-        });
+        } else {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+        }
+        
+    }
+    
+    public void seleccionarPlan(String cobertura) {
+        TextInputDialog dialogPlan = new TextInputDialog();
+        dialogPlan.setTitle("Suscripción");
+        dialogPlan.setHeaderText("Ingrese el Plan:");
+        Optional<String> resultPlan = dialogPlan.showAndWait();
 
-        grid.add(coberturaLabel, 0, 0);
-        grid.add(coberturaField, 1, 0);
-        grid.add(planLabel, 0, 1);
-        grid.add(planField, 1, 1);
-        grid.add(nombreLabel, 0, 2);
-        grid.add(nombreField, 1, 2);
-        grid.add(rutLabel, 0, 3);
-        grid.add(rutField, 1, 3);
-        grid.add(telefonoLabel, 0, 4);
-        grid.add(telefonoField, 1, 4);
-        grid.add(btnSuscribir, 1, 5);
+        if (resultPlan.isPresent() && !resultPlan.get().trim().isEmpty()) {
+            Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
+            if (plan != null) {
+                // Si encontramos el plan, continuamos al siguiente paso.
+                ingresarDatosCliente(cobertura, resultPlan.get().trim());
+            } else {
+                mostrarMensajeError("Error", "Plan no encontrado en la cobertura seleccionada.");
+            }
+        } else {
+            mostrarMensajeError("Error", "Debe ingresar un plan válido.");
+        }
+    }
+    
+    public void ingresarDatosCliente(String cobertura, String plan) {
+        // Aquí puedes usar un Dialog personalizado o una ventana separada 
+        // para ingresar todos los datos requeridos (nombre, rut, teléfono).
+        // Por simplicidad, uso un TextInputDialog como ejemplo:
 
-        Scene scene = new Scene(grid, 400, 300);
-        suscripcionStage.setScene(scene);
-        suscripcionStage.show();
+        TextInputDialog dialogCliente = new TextInputDialog();
+        dialogCliente.setTitle("Datos del Cliente");
+        dialogCliente.setHeaderText("Ingrese los datos del cliente (ejemplo: nombre,rut,telefono):");
+        Optional<String> resultCliente = dialogCliente.showAndWait();
+
+        if (resultCliente.isPresent() && validarDatosCliente(resultCliente.get().trim())) {
+            String[] datos = resultCliente.get().split(",");
+            try {
+                cce.suscribirCliente(datos[0], datos[1], datos[2], cobertura, plan);
+                mostrarMensajeInfo("Éxito", "Cliente registrado exitosamente.");
+            } catch(Exception e) {
+                mostrarMensajeError("Error", e.getMessage());
+            }
+        } else {
+            mostrarMensajeError("Error", "Debe ingresar datos válidos del cliente.");
+        }
+    }
+    
+    private boolean validarDatosCliente(String datos) {
+        return datos.split(",").length == 3;
+    }
+    
+    public void mostrarMensajeError(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
+    public void mostrarMensajeInfo(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 
 }

@@ -1,5 +1,7 @@
 package controladores;
+
 import modelos.*;
+import excepciones.*;
 import vista.*;
 import java.io.*;
 import java.util.*;
@@ -10,32 +12,40 @@ public class controladorCliente {
     private controladorCobertura cc;
     private controladorPlan cp;
 
-    public controladorCliente(Empresa modelo) {
+   public controladorCliente(Empresa modelo) {
         this.modelo = modelo;
-        controladorCobertura cc = new controladorCobertura(modelo);
-        controladorPlan cp = new controladorPlan(modelo);
+        this.cc = new controladorCobertura(modelo);
+        this.cp = new controladorPlan(modelo);
         this.vista = new vistaCliente(cc, cp, this);
     }
 
-    public void suscribirCliente(Cliente cliente, String codigoCobertura, String idPlan) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
+
+    public void suscribirCliente(String nombre, String rut, String telefono, String codigoCobertura, String idPlan) {
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             Plan plan = cobertura.buscarPlan(idPlan);
-            if (plan != null && !plan.tieneCliente(cliente)) { // Aquí debes asegurarte de tener un método que verifique si un cliente ya está suscrito al plan
-                plan.agregarCliente(cliente); // Esto es un método hipotético que debes implementar en tu clase Plan
-                //vista.mostrarMensaje("Cliente suscrito exitosamente!"); // Esta es una función hipotética en tu VistaCliente
-            }
+            Cliente cliente = new Cliente(nombre,rut,telefono);
+            plan.agregarCliente(cliente);
+        }catch (CoberturaNoEncontradaException e){
+            
+        }catch (PlanNoEncontradoException e){
+            
+        }catch(ClienteYaRegistradoException e){
+            
         }
     }
 
     public void desuscribirCliente(Cliente cliente, String codigoCobertura, String idPlan) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             Plan plan = cobertura.buscarPlan(idPlan);
-            if (plan != null && plan.tieneCliente(cliente)) {
-                plan.eliminarCliente(cliente);
-                //vista.mostrarMensaje("Cliente desuscripto exitosamente!");
-            }
+            plan.eliminarCliente(cliente);
+        }catch (CoberturaNoEncontradaException e){
+            
+        }catch (PlanNoEncontradoException e){
+            
+        }catch(ClienteNoEncontradoException e){
+            
         }
     }
     

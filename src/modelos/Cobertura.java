@@ -45,22 +45,22 @@ public class Cobertura {
     }
     
     // Método para agregar un Plan
-    public void agregarPlan(Plan plan) {
-        if(!mapaPlanes.containsKey(plan.getId())) { // Verifica que el plan no esté ya registrado
+    public void agregarPlan(Plan plan) throws PlanYaRegistradoException{
+        if(mapaPlanes.containsKey(plan.getId() ) == false) { // Verifica que el plan no esté ya registrado
             listaPlanes.add(plan);
             mapaPlanes.put(plan.getId(), plan);
         }else{
-            throw new PlanYaRegistradoException("El plan con ID: " + id + " ya fue registrado.");;        
+            throw new PlanYaRegistradoException("El plan con ID: " + plan.getId() + " ya fue registrado.");        
         }
     }
 
     // Método para eliminar un Plan por ID
-    public void eliminarPlan(String idPlan) {
-        if(mapaPlanes.containsKey(plan.getId())) { // Verifica que el plan no esté ya registrado
-            mapaPlanes.remove(idPlan); 
-            listaPlanes.remove(plan);
+    public void eliminarPlan(String idPlan) throws PlanNoEncontradoException{
+        if(mapaPlanes.containsKey(idPlan) == true) { // Verifica que el plan no esté ya registrado
+            Plan aux = mapaPlanes.remove(idPlan); 
+            listaPlanes.remove(aux);
         }else{
-            throw new PlanNoEncontradoException("El plan con ID: " + id + " no fue encontrado.");;        
+            throw new PlanNoEncontradoException("El plan con ID: " + idPlan + " no fue encontrado.");       
         }
     }
 
@@ -87,11 +87,11 @@ public class Cobertura {
     }
 
     // Método para buscar un Plan por ID
-    public Plan buscarPlan(String idPlan) {
-        if(mapaPlanes.containsKey(idPlan)) {
+    public Plan buscarPlan(String idPlan) throws PlanNoEncontradoException{
+        if(mapaPlanes.containsKey(idPlan) == true) {
             return mapaPlanes.get(idPlan);
         }else{
-            throw new PlanNoEncontradoException("El plan con ID: " + id + " no fue encontrado.");;        
+            throw new PlanNoEncontradoException("El plan con ID: " + idPlan + " no fue encontrado.");       
         }
     }
     

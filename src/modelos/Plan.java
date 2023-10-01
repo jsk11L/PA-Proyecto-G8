@@ -3,6 +3,8 @@ package modelos;
 import modelos.Cliente;
 import java.util.*;
 import java.io.*;
+import excepciones.*;
+
 public class Plan {
     private String id;
     private float precio;
@@ -37,7 +39,7 @@ public class Plan {
     }
 
     // Método para agregar un Cliente
-    public void agregarCliente(Cliente cliente) {
+    public void agregarCliente(Cliente cliente) throws ClienteYaRegistradoException {
         if(!mapaClientes.containsKey(cliente.getRut())) {
             listaClientes.add(cliente);
             mapaClientes.put(cliente.getRut(), cliente);
@@ -47,7 +49,7 @@ public class Plan {
     }
 
     // Método para eliminar un Cliente
-    public void eliminarCliente(Cliente cliente) {
+    public void eliminarCliente(Cliente cliente) throws ClienteNoEncontradoException{
         Cliente clienteEliminado = mapaClientes.remove(cliente.getRut());
         if(clienteEliminado != null) {
             listaClientes.remove(clienteEliminado);

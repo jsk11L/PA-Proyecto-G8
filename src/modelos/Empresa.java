@@ -14,18 +14,17 @@ public class Empresa {
     }
 
     // Métodos
-    public void agregarCobertura(Cobertura cobertura) {
-        if(mapaCoberturas.containsKey(id)){
-            throw new CoberturaYaRegistradaException("La cobertura con ID: " + id + " ya fue registrada.");
+    public void agregarCobertura(Cobertura cobertura)throws CoberturaYaRegistradaException {
+        if(mapaCoberturas.containsKey(cobertura.getCodigoRegion())){
+            throw new CoberturaYaRegistradaException("La cobertura con ID: " + cobertura.getCodigoRegion() + " ya fue registrada.");
         }
         else{
             mapaCoberturas.put(cobertura.getCodigoRegion(), cobertura);
             listaCoberturas.add(cobertura);
-            return true;
         }
     }
 
-    public Cobertura eliminarCobertura(String id) {
+    public Cobertura eliminarCobertura(String id) throws CoberturaNoEncontradaException {
         if(!mapaCoberturas.containsKey(id)){
             throw new CoberturaNoEncontradaException("La cobertura con ID: " + id + " no fue encontrada.");
         }
@@ -42,29 +41,10 @@ public class Empresa {
         }
         return aux;
     }
-    
-    public Cobertura eliminarCobertura(String codigo) {
+
+    public Cobertura buscarCobertura(String codigo) throws CoberturaNoEncontradaException{
         if(!mapaCoberturas.containsKey(codigo)){
-            throw new CoberturaNoEncontradaException("El plan con ID: " + id + " no fue encontrado.");
-        }
-        Cobertura aux = mapaCoberturas.remove(codigo);
-
-        for(int i = 0; i < listaCoberturas.size(); i++){
-
-            Cobertura aux2 = listaCoberturas.get(i);
-            if(codigo.equals(aux.getCodigoRegion())){
-                    listaCoberturas.remove(i);
-                    break;
-            }
-
-        }
-
-        return aux;
-    }
-
-    public Cobertura buscarCobertura(String codigo) {
-        if(!mapaCoberturas.containsKey(codigo)){
-            throw new CoberturaNoEncontradaException("La cobertura con ID: " + id + " no fue encontrada.");
+            throw new CoberturaNoEncontradaException("La cobertura con ID: " + codigo + " no fue encontrada.");
         }
 
         Cobertura aux = null;
@@ -89,10 +69,13 @@ public class Empresa {
         return copia;
     }
     
-    public Plan buscarPlan(Cobertura cobertura, String clave){
+    public Plan buscarPlan(String codigo, String clave) throws PlanNoEncontradoException, CoberturaNoEncontradaException{
+        Cobertura cobertura = buscarCobertura(codigo);
         Plan plan = cobertura.buscarPlan(clave);
-        if(plan != null) return plan;
-        throw new PlanNoEncontradoException("El plan con ID: " + id + " no fue encontrado.");
+        if(plan != null) {
+            return plan;
+        }
+        throw new PlanNoEncontradoException("El plan con ID: " + clave + " no fue encontrado.");
     }
 
 }

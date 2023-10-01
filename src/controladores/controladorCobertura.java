@@ -1,5 +1,6 @@
 package controladores;
 import modelos.*;
+import excepciones.*;
 import vista.*;
 import java.io.*;
 import java.util.*;
@@ -15,17 +16,19 @@ public class controladorCobertura {
 
     // Agregar Cobertura
     public void agregarCobertura(Cobertura cobertura) {
-        modelo.agregarCobertura(cobertura);
-        //vista.mostrarMensaje("Cobertura agregada exitosamente!");
+        try{
+            modelo.agregarCobertura(cobertura);
+        } catch (CoberturaYaRegistradaException e){
+            
+        }
     }
 
     // Eliminar Cobertura
     public void eliminarCobertura(String codigoCobertura) {
-        Cobertura cobertura = modelo.eliminarCobertura(codigoCobertura);
-        if (cobertura != null) {
-            //vista.mostrarMensaje("Cobertura eliminada exitosamente!");
-        } else {
-            //vista.mostrarMensaje("Cobertura no encontrada!");
+        try{
+            Cobertura cobertura = modelo.eliminarCobertura(codigoCobertura);
+        } catch (CoberturaNoEncontradaException e){
+            
         }
     }
 
@@ -45,76 +48,71 @@ public class controladorCobertura {
 
     // Añadir Plan a una Cobertura específica
     public void agregarPlanACobertura(String codigoCobertura, Plan plan) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
-            cobertura.agregarPlan(plan); // Asumiendo que tienes este método en tu clase Cobertura
-            //vista.mostrarMensaje("Plan agregado a la cobertura exitosamente!");
-        } else {
-            //vista.mostrarMensaje("Cobertura no encontrada!");
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
+            cobertura.agregarPlan(plan);
+        } catch (CoberturaNoEncontradaException e){
+            //vista.mostrarError();
+        } catch (PlanYaRegistradoException e){
+            
         }
     }
 
     // Eliminar Plan de una Cobertura específica
     public void eliminarPlanDeCobertura(String codigoCobertura, String idPlan) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
-            boolean result = cobertura.eliminarPlan(idPlan); // Asumiendo que tienes este método en tu clase Cobertura
-            if (result) {
-                //vista.mostrarMensaje("Plan eliminado de la cobertura exitosamente!");
-            } else {
-                //vista.mostrarMensaje("Plan no encontrado en la cobertura!");
-            }
-        } else {
-            //vista.mostrarMensaje("Cobertura no encontrada!");
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
+            cobertura.eliminarPlan(idPlan);
+        } catch (CoberturaNoEncontradaException e){
+            
+        } catch (PlanNoEncontradoException e){
+            
         }
     }
 
     // Listar todos los Planes de una Cobertura específica y cuántos suscriptores tienen
     public void listarPlanesDeCobertura(String codigoCobertura) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
-            ArrayList<Plan> planes = cobertura.getPlanes(); // Asumiendo que tienes este método en tu clase Cobertura
-            //vista.mostrarListaPlanes(planes); // Suponiendo que en VistaCobertura tienes un método que muestra una lista de planes y sus suscriptores
-        } else {
-            //vista.mostrarMensaje("Cobertura no encontrada!");
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
+            ArrayList<Plan> planes = cobertura.getPlanes();
+        } catch (CoberturaNoEncontradaException e){
+            
         }
     }
  
     // Modificar el precio de un Plan en una Cobertura específica
     public void modificarPrecioPlan(String codigoCobertura, String idPlan, float nuevoPrecio) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
-            Plan plan = cobertura.buscarPlan(idPlan); // Asumiendo que tienes este método en tu clase Cobertura
-            if (plan != null) {
-                plan.setPrecio(nuevoPrecio); // Utilizando el setter en tu clase Plan
-                //vista.mostrarMensaje("Precio del plan actualizado exitosamente!");
-            } else {
-                //vista.mostrarMensaje("Plan no encontrado!");
-            }
-        } else {
-            //vista.mostrarMensaje("Cobertura no encontrada!");
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
+            Plan plan = cobertura.buscarPlan(idPlan);
+            plan.setPrecio(nuevoPrecio); 
+        } catch(CoberturaNoEncontradaException e){
+            
+        } catch (PlanNoEncontradoException e){
+            
         }
     }
 
     // Modificar el ID de un Plan en una Cobertura específica
     public void modificarIdPlan(String codigoCobertura, String idPlanActual, String nuevoId) {
-        Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
-        if (cobertura != null) {
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(codigoCobertura);
             Plan plan = cobertura.buscarPlan(idPlanActual);
-            if (plan != null) {
-                plan.setId(nuevoId); // Utilizando el setter en tu clase Plan
-                //vista.mostrarMensaje("ID del plan actualizado exitosamente!");
-            } else {
-                //vista.mostrarMensaje("Plan no encontrado!");
-            }
-        } else {
-            //vista.mostrarMensaje("Cobertura no encontrada!");
+            plan.setId(nuevoId); 
+        } catch(CoberturaNoEncontradaException e){
+            
+        } catch (PlanNoEncontradoException e){
+            
         }
     }
     
     public Cobertura buscarCobertura(String clave){
-        Cobertura cobertura = modelo.buscarCobertura(clave);
-        if(cobertura != null) return cobertura;
+        try{
+            Cobertura cobertura = modelo.buscarCobertura(clave);
+            return cobertura;
+        } catch (CoberturaNoEncontradaException e){
+            
+        }
         return null;
     }
 
