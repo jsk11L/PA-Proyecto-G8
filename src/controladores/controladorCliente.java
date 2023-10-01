@@ -7,10 +7,14 @@ import java.util.*;
 public class controladorCliente {
     private Empresa modelo;
     private vistaCliente vista; // Asumiendo que tienes una clase VistaCliente
+    private controladorCobertura cc;
+    private controladorPlan cp;
 
     public controladorCliente(Empresa modelo) {
         this.modelo = modelo;
-        this.vista = new vistaCliente();
+        controladorCobertura cc = new controladorCobertura(modelo);
+        controladorPlan cp = new controladorPlan(modelo);
+        this.vista = new vistaCliente(cc, cp, this);
     }
 
     public void suscribirCliente(Cliente cliente, String codigoCobertura, String idPlan) {
@@ -34,5 +38,10 @@ public class controladorCliente {
             }
         }
     }
+    
+    public void iniciarSuscripcion() {
+        vista.mostrarVentanaSuscripcion();
+    }
+
 }
 

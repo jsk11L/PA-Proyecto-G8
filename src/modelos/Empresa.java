@@ -88,5 +88,11 @@ public class Empresa {
         
         return copia;
     }
+    
+    public Plan buscarPlan(Cobertura cobertura, String clave){
+        Plan plan = cobertura.buscarPlan(clave);
+        if(plan != null) return plan;
+        return null;
+    }
 
 }

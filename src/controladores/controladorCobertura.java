@@ -111,5 +111,11 @@ public class controladorCobertura {
             //vista.mostrarMensaje("Cobertura no encontrada!");
         }
     }
+    
+    public Cobertura buscarCobertura(String clave){
+        Cobertura cobertura = modelo.buscarCobertura(clave);
+        if(cobertura != null) return cobertura;
+        return null;
+    }
 
 }

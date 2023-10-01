@@ -16,7 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
-
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 public class Main extends Application {
 
@@ -32,18 +33,42 @@ public class Main extends Application {
         BorderPane root = new BorderPane();
 
         // Configurar la imagen
-        Image image = new Image("/images/2.jpg"); // Asegúrate de poner la ruta correcta de tu imagen
+        Image image = new Image("/images/2.png"); // Asegúrate de poner la ruta correcta de tu imagen
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(600); // Ajustar al tamaño de tu ventana
 
         // Configurar botones en la izquierda
-        VBox vbox = new VBox(10); // 10 es el espacio entre los botones
+        VBox vbox = new VBox();
+        vbox.setSpacing(10); // Espacio entre botones
+        vbox.setPadding(new Insets(20, 20, 20, 20)); // Espaciado en la parte superior, derecha, inferior y izquierda
+        vbox.setAlignment(Pos.CENTER_LEFT); // Alineación de los botones
+    
         Button btnSuscribir = new Button("Suscribir Cliente");
+        btnSuscribir.setPrefWidth(200);   // Cambia 200 por el ancho que prefieras.
+        btnSuscribir.setPrefHeight(50);
+        
         Button btnDesuscribir = new Button("Desuscribir Cliente");
-        // Puedes seguir añadiendo botones según lo que necesites...
-
-        vbox.getChildren().addAll(btnSuscribir, btnDesuscribir);
+        btnDesuscribir.setPrefWidth(200);   // Cambia 200 por el ancho que prefieras.
+        btnDesuscribir.setPrefHeight(50);
+        
+        Button btnModificar = new Button("Entrar al sistema");
+        btnModificar.setPrefWidth(200);
+        btnModificar.setPrefHeight(50);
+        
+        btnSuscribir.setOnAction(event -> {
+            controladorCliente.iniciarSuscripcion();
+        });
+        
+        btnDesuscribir.setOnAction(event -> {
+            //controladorCliente.iniciarDesuscripcion();
+        });
+        
+        btnModificar.setOnAction(event -> {
+           System.out.println("xd"); 
+        });
+        
+        vbox.getChildren().addAll(btnSuscribir, btnDesuscribir, btnModificar);
 
         // Establecer imagen y botones en el BorderPane
         root.setLeft(vbox);

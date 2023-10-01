@@ -44,6 +44,12 @@ public class controladorPlan {
             //vista.mostrarMensaje("Cobertura no encontrada!");
         }
     }
+    
+    public Plan buscarPlan(Cobertura cobertura, String clave){
+        Plan plan = modelo.buscarPlan(cobertura, clave);
+        if(plan != null) return plan;
+        return null;
+    }
 
 }
 
