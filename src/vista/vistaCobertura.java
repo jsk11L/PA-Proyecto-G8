@@ -29,38 +29,48 @@ public class vistaCobertura {
      * Método para mostrar una ventana para agregar una nueva cobertura.
      */
     public void mostrarVentanaAgregar() {
-    TextInputDialog dialogCodigo = new TextInputDialog();
-    Stage stage = (Stage) dialogCodigo.getDialogPane().getScene().getWindow();
-    stage.getIcons().add(new Image("/images/iconSus.png"));
-    dialogCodigo.setTitle("Agregar Cobertura");
-    dialogCodigo.setHeaderText("Ingrese la región:");
-    Optional<String> resultCodigo = dialogCodigo.showAndWait();
+        TextInputDialog dialogCodigo = new TextInputDialog();
+        Stage stage = (Stage) dialogCodigo.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("/images/iconSus.png"));
+        dialogCodigo.setTitle("Agregar Cobertura");
+        dialogCodigo.setHeaderText("Ingrese la región:");
+        Optional<String> resultCodigo = dialogCodigo.showAndWait();
+    
+        if (!resultCodigo.isPresent()) {
+            return;
+        }
 
-    if (resultCodigo.isPresent() && !resultCodigo.get().trim().isEmpty()) {
+        if (resultCodigo.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
         String codigoRegion = resultCodigo.get().trim();
-
         TextInputDialog dialogRegion = new TextInputDialog();
         dialogRegion.setTitle("Agregar Cobertura");
         dialogRegion.setHeaderText("Ingrese el código de la región:");
         Optional<String> resultRegion = dialogRegion.showAndWait();
+        
+        if (!resultRegion.isPresent()) {
+            return;
+        }
 
-        if (resultRegion.isPresent() && !resultRegion.get().trim().isEmpty()) {
-            String region = resultRegion.get().trim();
-            
-            Cobertura nuevaCobertura = new Cobertura(codigoRegion, region);
-            boolean agregado = cc.agregarCobertura(nuevaCobertura);
-
-            if (agregado) {
+        if (resultRegion.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una región válida.");
+            return;
+        }
+        
+        String region = resultRegion.get().trim();
+        
+        Cobertura nuevaCobertura = new Cobertura(codigoRegion, region);
+        boolean agregado = cc.agregarCobertura(nuevaCobertura);
+        
+        if (agregado) {
                 mostrarMensajeInfo("Éxito", "Cobertura agregada exitosamente.");
             } else {
                 mostrarMensajeError("Error", "Ya existe una cobertura con ese código de región.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar una región válida.");
-        }
-    } else {
-        mostrarMensajeError("Error", "Debe ingresar un código de región válido.");
-    }
+
 }
 
     /**
@@ -73,17 +83,22 @@ public class vistaCobertura {
         dialogCobertura.setTitle("Eliminar Cobertura");
         dialogCobertura.setHeaderText("Ingrese el código de región de la cobertura a eliminar:");
         Optional<String> resultCobertura = dialogCobertura.showAndWait();
+        
+        if (!resultCobertura.isPresent()) {
+            return;
+        }
 
-        if (resultCobertura.isPresent() && !resultCobertura.get().trim().isEmpty()) {
-            boolean eliminado = cc.eliminarCobertura(resultCobertura.get().trim());
-            if (eliminado) {
+        if (resultCobertura.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+       boolean eliminado = cc.eliminarCobertura(resultCobertura.get().trim());
+        if (eliminado) {
                 mostrarMensajeInfo("Éxito", "Cobertura eliminada exitosamente.");
             } else {
                 mostrarMensajeError("Error", "Error al eliminar la cobertura o no encontrada.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
-        }
     }
     
     /**

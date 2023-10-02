@@ -45,16 +45,20 @@ public class vistaCliente {
         dialogCobertura.setHeaderText("Ingrese el código de región de la cobertura:");
         Optional<String> resultCobertura = dialogCobertura.showAndWait();
 
-        if (resultCobertura.isPresent() && !resultCobertura.get().trim().isEmpty()) {
-            Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
-            if (cobertura != null) {
-                // Si encontramos la cobertura, continuamos al siguiente paso.
-                seleccionarPlan(resultCobertura.get().trim());
-            } else {
-                mostrarMensajeError("Error", "Cobertura no encontrada.");
-            }
-        } else {
+        if (!resultCobertura.isPresent()) {
+            return;
+        }
+
+        if (resultCobertura.get().trim().isEmpty()) {
             mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
+        if (cobertura != null) {            
+            seleccionarPlan(resultCobertura.get().trim());
+        } else {
+            mostrarMensajeError("Error", "Cobertura no encontrada.");
         }
         
     }
@@ -71,17 +75,22 @@ public class vistaCliente {
         dialogPlan.setTitle("Suscripción");
         dialogPlan.setHeaderText("Ingrese el ID del Plan:");
         Optional<String> resultPlan = dialogPlan.showAndWait();
+        
+        if (!resultPlan.isPresent()) {
+            return;
+        }
 
-        if (resultPlan.isPresent() && !resultPlan.get().trim().isEmpty()) {
-            Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
-            if (plan != null) {
+        if (resultPlan.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
+        if (plan != null) {
                 ingresarDatosCliente(cobertura, resultPlan.get().trim());
             } else {
                 mostrarMensajeError("Error", "Plan no encontrado en la cobertura seleccionada.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar un plan válido.");
-        }
     }
     
     /**
@@ -97,18 +106,23 @@ public class vistaCliente {
         dialogCliente.setTitle("Datos del Cliente");
         dialogCliente.setHeaderText("Ingrese los datos del cliente (ejemplo: nombre,rut,telefono):");
         Optional<String> resultCliente = dialogCliente.showAndWait();
+        
+        if (!resultCliente.isPresent()) {
+            return;
+        }
 
-        if (resultCliente.isPresent() && validarDatosCliente(resultCliente.get().trim())) {
-            String[] datos = resultCliente.get().split(",");
-            try {
+        if (resultCliente.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        String[] datos = resultCliente.get().split(",");
+        try {
                 cce.suscribirCliente(datos[0], datos[1], datos[2], cobertura, plan);
                 mostrarMensajeInfo("Éxito", "Cliente suscrito exitosamente.");
             } catch(Exception e) {
                 mostrarMensajeError("Error", e.getMessage());
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar datos válidos del cliente.");
-        }
     }
     
     /**
@@ -121,18 +135,23 @@ public class vistaCliente {
         dialogCobertura.setTitle("Suscripción");
         dialogCobertura.setHeaderText("Ingrese el código de región de la cobertura:");
         Optional<String> resultCobertura = dialogCobertura.showAndWait();
+        
+        if (!resultCobertura.isPresent()) {
+            return;
+        }
 
-        if (resultCobertura.isPresent() && !resultCobertura.get().trim().isEmpty()) {
-            Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
-            if (cobertura != null) {
+        if (resultCobertura.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
+        if (cobertura != null) {
                 // Si encontramos la cobertura, continuamos al siguiente paso.
                 seleccionarPlanDesuscribir(resultCobertura.get().trim());
             } else {
                 mostrarMensajeError("Error", "Cobertura no encontrada.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
-        }
         
     }
     
@@ -148,18 +167,23 @@ public class vistaCliente {
         dialogPlan.setTitle("Suscripción");
         dialogPlan.setHeaderText("Ingrese el ID del Plan:");
         Optional<String> resultPlan = dialogPlan.showAndWait();
+        
+        if (!resultPlan.isPresent()) {
+            return;
+        }
 
-        if (resultPlan.isPresent() && !resultPlan.get().trim().isEmpty()) {
-            Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
-            if (plan != null) {
+        if (resultPlan.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
+        if (plan != null) {
                 // Si encontramos el plan, continuamos al siguiente paso.
                 ingresarDatosClienteDesuscribir(cobertura, resultPlan.get().trim());
             } else {
                 mostrarMensajeError("Error", "Plan no encontrado en la cobertura seleccionada.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar un plan válido.");
-        }
     }
     
     /**
@@ -175,18 +199,23 @@ public class vistaCliente {
         dialogCliente.setTitle("Datos del Cliente");
         dialogCliente.setHeaderText("Ingrese los datos del cliente (ejemplo: nombre,rut,telefono):");
         Optional<String> resultCliente = dialogCliente.showAndWait();
+        
+        if (!resultCliente.isPresent()) {
+            return;
+        }
 
-        if (resultCliente.isPresent() && validarDatosCliente(resultCliente.get().trim())) {
-            String[] datos = resultCliente.get().split(",");
-            try {
+        if (resultCliente.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        String[] datos = resultCliente.get().split(",");
+        try {
                 cce.desuscribirCliente(datos[0], datos[1], datos[2], cobertura, plan);
                 mostrarMensajeInfo("Éxito", "Cliente desuscrito exitosamente.");
             } catch(Exception e) {
                 mostrarMensajeError("Error", e.getMessage());
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar datos válidos del cliente.");
-        }
     }
     
     /**
@@ -199,10 +228,18 @@ public class vistaCliente {
         dialogCliente.setTitle("Búsqueda de Cliente");
         dialogCliente.setHeaderText("Ingrese el RUT del cliente:");
         Optional<String> resultCliente = dialogCliente.showAndWait();
+        
+        if (!resultCliente.isPresent()) {
+            return;
+        }
 
-        if (resultCliente.isPresent() && !resultCliente.get().trim().isEmpty()) {
-            String[] datos = cce.buscarCliente(resultCliente.get().trim());
-            if (datos != null) {
+        if (resultCliente.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        String[] datos = cce.buscarCliente(resultCliente.get().trim());
+        if (datos != null) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Información del Cliente");
                 alert.setHeaderText(null);
@@ -211,9 +248,6 @@ public class vistaCliente {
             } else {
                 mostrarMensajeError("Error", "Cliente no encontrado.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar un RUT válido.");
-        }
     }
     
     /**
@@ -226,18 +260,23 @@ public class vistaCliente {
         dialogCobertura.setTitle("Suscripción");
         dialogCobertura.setHeaderText("Ingrese el código de región de la cobertura:");
         Optional<String> resultCobertura = dialogCobertura.showAndWait();
+        
+        if (!resultCobertura.isPresent()) {
+            return;
+        }
 
-        if (resultCobertura.isPresent() && !resultCobertura.get().trim().isEmpty()) {
-            Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
-            if (cobertura != null) {
+        if (resultCobertura.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        Cobertura cobertura = cc.buscarCobertura(resultCobertura.get().trim());
+        if (cobertura != null) {
                 // Si encontramos la cobertura, continuamos al siguiente paso.
                 seleccionarPlanListar(resultCobertura.get().trim());
             } else {
                 mostrarMensajeError("Error", "Cobertura no encontrada.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
-        }
         
     }
     
@@ -253,17 +292,22 @@ public class vistaCliente {
         dialogPlan.setTitle("Suscripción");
         dialogPlan.setHeaderText("Ingrese el ID del Plan:");
         Optional<String> resultPlan = dialogPlan.showAndWait();
+        
+        if (!resultPlan.isPresent()) {
+            return;
+        }
 
-        if (resultPlan.isPresent() && !resultPlan.get().trim().isEmpty()) {
-            Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
-            if (plan != null) {
+        if (resultPlan.get().trim().isEmpty()) {
+            mostrarMensajeError("Error", "Debe ingresar una cobertura válida.");
+            return;
+        }
+
+        Plan plan = cp.buscarPlan(cobertura, resultPlan.get().trim());
+        if (plan != null) {
                 listarClientes(cobertura, resultPlan.get().trim());
             } else {
                 mostrarMensajeError("Error", "Plan no encontrado en la cobertura seleccionada.");
             }
-        } else {
-            mostrarMensajeError("Error", "Debe ingresar un plan válido.");
-        }
     }  
     
      /**

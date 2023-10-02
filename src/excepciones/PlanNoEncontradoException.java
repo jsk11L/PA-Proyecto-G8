@@ -13,4 +13,14 @@ public class PlanNoEncontradoException extends Exception {
     public PlanNoEncontradoException(String mensaje) {
         super(mensaje);
     }
+    
+    /**
+     * Sobrescribe el método toString() para proporcionar una representación personalizada de la excepción.
+     *
+     * @return Una representación en forma de cadena de esta excepción.
+     */
+    @Override
+    public String toString() {
+        return "CoberturaNoEncontradaException: " + getMessage();
+    }
 }

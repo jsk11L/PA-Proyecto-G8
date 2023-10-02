@@ -32,7 +32,6 @@ public class vistaMenu {
         this.cce = cce;
         this.cc = cc;
      
-        
         ventanaMenu = new Stage();
         ventanaMenu.setTitle("Menú de administración");
         Image appIcon = new Image("/images/iconMenu.png");
