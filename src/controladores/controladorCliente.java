@@ -44,7 +44,7 @@ public class controladorCliente {
             Cliente cliente = new Cliente(nombre,rut,telefono);
             plan.agregarCliente(cliente);
         } catch (CoberturaNoEncontradaException | PlanNoEncontradoException | ClienteYaRegistradoException e) {
-            // Manejo de excepciones
+            return;
         }
     }
 
@@ -64,7 +64,7 @@ public class controladorCliente {
             Cliente cliente = new Cliente(nombre,rut,telefono);
             plan.eliminarCliente(cliente);
         } catch (CoberturaNoEncontradaException | PlanNoEncontradoException | ClienteNoEncontradoException e) {
-            // Manejo de excepciones
+            return;
         }
     }
 
@@ -106,9 +106,8 @@ public class controladorCliente {
             Plan plan = cobertura.buscarPlan(idPlan);
             return plan.getClientes().size();
         } catch (CoberturaNoEncontradaException | PlanNoEncontradoException e) {
-            // Manejo de excepciones
+            return 0;
         }
-        return 0;
     }
     
     /** Inicia la ventana de suscripción de clientes. */

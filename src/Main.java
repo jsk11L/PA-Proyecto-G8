@@ -14,6 +14,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 
 /**
  * Clase Main, punto de entrada principal de la aplicación de gestión de redes de cable de TV.
@@ -39,8 +44,9 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        cargarDatosDePrueba();
-        cargarDatosDePrueba2();
+        //cargarDatosDePrueba();
+        //cargarDatosDePrueba2();
+        cargarDatosDesdeCSV();
         
         primaryStage.setTitle("Gestión de redes de cable de TV");
         Image appIcon = new Image("/images/icon.png");
@@ -104,12 +110,17 @@ public class Main extends Application {
         });
         
         btnSalir.setOnAction(event -> {
+           GeneradorReporte reporte = new GeneradorReporte(empresa);
+           reporte.generarReporteCSV("report.csv");
+           
+           GenerarRegistroExcel reporte2 = new GenerarRegistroExcel(empresa);
+           reporte2.generarReporte("report2.xls");
+           
            primaryStage.close();
         });
         
         vbox.getChildren().addAll(btnSuscribir, btnDesuscribir, btnBuscar, btnListar, btnModificar, btnSalir);
 
-        // Establecer imagen y botones en el BorderPane
         root.setLeft(vbox);
         root.setRight(imageView);
 
@@ -189,6 +200,77 @@ public class Main extends Application {
             return;
         }
     }
+    
+    /**
+    * Carga los datos desde un archivo CSV y popula las estructuras de datos de la aplicación.
+    * El método asume un formato específico del CSV, basado en la estructura de datos de la empresa.
+    * Las entidades (Cobertura, Plan, Cliente) se crean o se obtienen según corresponda, evitando duplicados.
+    * 
+    * @throws IOException Si ocurre un problema al leer el archivo.
+    */
+    private void cargarDatosDesdeCSV() {
+        String rutaArchivo = "report.csv";
+        
+        if (new File(rutaArchivo).exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(rutaArchivo))) {
+                String line;
+                boolean esPrimeraLinea = true;
+                
+                while ((line = reader.readLine()) != null) {
+                    if (esPrimeraLinea) {
+                        esPrimeraLinea = false;
+                        continue;
+                    }
+                    
+                    String[] campos = line.split(";");
+                    if (campos.length != 7) {
+                        System.out.println("Línea mal formada en CSV: " + line);
+                        continue;
+                    }
+                    
+                    String zonaCobertura = campos[0];
+                    String codigoRegion = campos[1];
+                    String idPlan = campos[2];
+                    String precioString = campos[3].replace("\"", "").replace(",", ".");
+                    float precioPlan = Float.parseFloat(precioString);                            
+                    String nombreCliente = campos[4];
+                    String rutCliente = campos[5];
+                    String telefonoCliente = campos[6];
+                    
+                    Cobertura cobertura = new Cobertura(zonaCobertura, codigoRegion);
+                    if (empresa.buscarCobertura(cobertura) == false) {
+                        empresa.agregarCobertura(cobertura);
+                    }
+                    else{
+                        cobertura = empresa.buscarCobertura(codigoRegion);
+                    }
+
+                    Plan plan = new Plan(idPlan, precioPlan);
+                    if (cobertura.buscarPlan(plan) == false) {
+                        cobertura.agregarPlan(plan);
+                    }
+                    else{
+                        plan = cobertura.buscarPlan(idPlan);
+                    }
+
+                    Cliente cliente = new Cliente(nombreCliente, rutCliente, telefonoCliente);
+                    if (plan.buscarCliente(cliente) == false) {
+                        plan.agregarCliente(cliente);
+                    }
+                                      
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (ClienteYaRegistradoException | PlanYaRegistradoException | CoberturaYaRegistradaException e){
+                e.printStackTrace();
+            } catch (PlanNoEncontradoException | CoberturaNoEncontradaException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      * Método principal que lanza la aplicación.

@@ -81,6 +81,17 @@ public class Empresa {
     }
     
     /**
+     * Indica si una cobertura especifica existe por su codigoRegion, sirve para la carga de archivos CSV.
+     *
+     * @param cobertura La cobertura a buscarse.
+     * @return true si el objeto Plan se encuentra, false si no.
+     */
+    public boolean buscarCobertura(Cobertura cobertura){
+        if(!mapaCoberturas.containsKey(cobertura.getCodigoRegion())) return false;
+        return true;
+    }
+    
+    /**
     * Devuelve una lista de todas las coberturas registradas en el sistema.
     *
     * @return Una lista de coberturas.

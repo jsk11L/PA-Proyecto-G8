@@ -126,5 +126,30 @@ public class Plan {
         return listaClientes.size();
     }
     
+    /**
+     * Busca y devuelve un cliente especifico por su rut.
+     *
+     * @param rut El cliente a ser buscado
+     * @return el Cliente buscado si es que existe
+     * @throws ClienteYaRegistradoException si ya se encuentra registrado este Cliente
+     */
+    public Cliente buscarCliente(String rut) throws ClienteYaRegistradoException{
+        if(mapaClientes.containsKey(rut)){
+            return mapaClientes.get(rut);
+        }
+        throw new ClienteYaRegistradoException("El cliente de rut " + rut + " ya está suscrito a este plan!.");
+    }
+    
+    /**
+     * Indica si un cliente especifico existe en un plan por su rut, sirve para la carga de archivos CSV.
+     *
+     * @param cliente El cliente a ser buscado
+     * @return true si se encuentra, false si no.
+     */
+    public boolean buscarCliente(Cliente cliente){
+        if(mapaClientes.containsKey(cliente.getRut())) return true;
+        return false;
+    }
+    
 }
 

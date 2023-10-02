@@ -157,4 +157,15 @@ public class Cobertura {
         }
     }
     
+    /**
+     * Indica si un plan especificado existe por su ID, sirve para la carga de archivos CSV.
+     *
+     * @param plan El plan a buscarse
+     * @return true si el objeto Plan se encuentra, false si no.
+     */
+    public boolean buscarPlan(Plan plan){
+        if(mapaPlanes.containsKey(plan.getId())) return true;
+        return false;
+    }
+    
 }
